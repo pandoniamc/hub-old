@@ -17,16 +17,17 @@ import java.util.Map;
 public class PlayerJoinListener implements Listener {
 
     private static final String[] JOIN_MESSAGE = {
-            "§8»§r (§c!§r) Bienvenue sur §3§lPandonia",
+            "§8» §f(§c!§f) §fBienvenue sur §3§lPandonia",
             "",
-            "§8┃§r Informations :",
-            " §8•§r De nombreux ajouts, modifications et résolutions de bugs ont été effectués.",
-            " §8•§r Rendez-vous dans le salon §7§o#nouvautés§r pour en savoir davantage.",
+            "§8┃ §fInformations :",
+            " §8• §fDe nombreux ajouts, modifications et résolutions de bugs ont été effectués.",
+            " §8• §fRendez-vous dans le salon §7§o#nouvautés §rpour en savoir davantage.",
             "",
-            "§8»§r En vous souhaitant une bonne expérience de jeu !"
+            "§8» §fEn vous souhaitant une §abonne expérience de jeu §f!"
     };
 
-    private static final String HOTBAR_ITEM_NAME_FORMAT = "%s §8▪ §r§7Clic-Droit";
+    private static final String HOTBAR_ITEM_NAME_FORMAT = "%s§r §8▪ §7Clic-Droit";
+
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -40,11 +41,11 @@ public class PlayerJoinListener implements Listener {
 
         // Hotbar
         Map<Integer, Pair<ItemStack, String>> inventory = new HashMap<>();
-        inventory.put(0, new Pair<>(new ItemStack(Material.COMPASS), "§aMenu principal"));
-        inventory.put(1, new Pair<>(ItemUtils.getPlayerSkull(player), "§3Profil"));
-        inventory.put(4, new Pair<>(new ItemStack(Material.CHEST), "§cCosmétiques"));
-        inventory.put(7, new Pair<>(new ItemStack(Material.FEATHER), "§aJump"));
-        inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), "§bHub"));
+        inventory.put(0, new Pair<>(new ItemStack(Material.COMPASS), "§a§lMenu principal"));
+        inventory.put(1, new Pair<>(ItemUtils.getPlayerSkull(player), "§3§lProfil"));
+        inventory.put(4, new Pair<>(new ItemStack(Material.CHEST), "§c§lCosmétiques"));
+        inventory.put(7, new Pair<>(new ItemStack(Material.FEATHER), "§a§lJump"));
+        inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), "§b§lHub"));
 
         inventory.forEach((slot, item) ->
                 player.getInventory().setItem(slot,
