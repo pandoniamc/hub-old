@@ -44,10 +44,3 @@ processResources {
 shadowJar {
     archiveFileName = "${project.name}-${project.version}.jar"
 }
-
-tasks.register('copyJar', Copy) {
-    from 'build/libs'
-    into project.properties['server']
-}
-
-tasks.shadowJar.finalizedBy(tasks.copyJar)
