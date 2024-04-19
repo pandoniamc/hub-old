@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'fr.pandonia'
+version = '1.0-SNAPSHOT'
+description = 'The implementation of the server in which players connect after joining the network'
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name 'spigotmc-repo'
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+
+    maven {
+        name 'jitpack'
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    compileOnly 'org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+processResources {
+    filter {
+        it.replace('${description}', project.description)
+        it.replace('${version}', project.version)
+    }
+}
+
+shadowJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+}
+
+tasks.register('copyJar', Copy) {
+    from 'build/libs'
+    into project.properties['server']
+}
+
+tasks.shadowJar.finalizedBy(tasks.copyJar)

@@ -1,0 +1,5 @@
+name: Hub
+version: ${version}
+description: ${description}
+author: Choukas
+main: fr.pandonia.hub.HubPlugin

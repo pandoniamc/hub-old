@@ -1,0 +1,9 @@
+.gradle
+gradle.properties
+build/
+
+### IntelliJ IDEA ###
+.idea
+
+### Mac OS ###
+.DS_Store
