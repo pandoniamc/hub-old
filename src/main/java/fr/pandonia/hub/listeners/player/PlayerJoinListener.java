@@ -1,6 +1,7 @@
 package fr.pandonia.hub.listeners.player;
 
 import com.samjakob.spigui.item.ItemBuilder;
+import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import fr.pandonia.hub.api.utils.Pair;
 import org.bukkit.GameMode;
@@ -28,6 +29,11 @@ public class PlayerJoinListener implements Listener {
 
     private static final String HOTBAR_ITEM_NAME_FORMAT = "%s§r §8▪ §7Clic-Droit";
 
+    private final ScoreboardManager scoreboardManager;
+
+    public PlayerJoinListener(ScoreboardManager scoreboardManager) {
+        this.scoreboardManager = scoreboardManager;
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -54,6 +60,8 @@ public class PlayerJoinListener implements Listener {
                                 .build()
                 )
         );
+
+        scoreboardManager.addPlayer(player);
 
         event.setJoinMessage(null);
     }

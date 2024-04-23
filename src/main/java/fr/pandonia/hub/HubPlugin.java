@@ -4,14 +4,12 @@ import com.samjakob.spigui.SpiGUI;
 import fr.pandonia.hub.api.gui.GuiManager;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.player.SqlPlayerService;
+import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.sql.HikariConnectionProvider;
 import fr.pandonia.hub.listeners.entity.EntityDamageListener;
 import fr.pandonia.hub.listeners.entity.FoodLevelChangeListener;
 import fr.pandonia.hub.listeners.inventory.InventoryClickListener;
-import fr.pandonia.hub.listeners.player.PlayerChatListener;
-import fr.pandonia.hub.listeners.player.PlayerDropItemListener;
-import fr.pandonia.hub.listeners.player.PlayerInteractListener;
-import fr.pandonia.hub.listeners.player.PlayerJoinListener;
+import fr.pandonia.hub.listeners.player.*;
 import fr.pandonia.hub.listeners.weather.WeatherChangeListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -36,6 +34,8 @@ public class HubPlugin extends JavaPlugin {
         // Services
         PlayerService playerService = new SqlPlayerService(connectionProvider);
 
+        ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
+
         registerListeners(
                 new EntityDamageListener(),
                 new FoodLevelChangeListener(),
@@ -43,7 +43,8 @@ public class HubPlugin extends JavaPlugin {
                 new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(guiManager),
-                new PlayerJoinListener(),
+                new PlayerJoinListener(scoreboardManager),
+                new PlayerQuitListener(scoreboardManager),
                 new WeatherChangeListener()
         );
 
