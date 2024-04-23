@@ -24,8 +24,15 @@ repositories {
 dependencies {
     compileOnly 'org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT'
 
-    // GUI
+    // Gui
     implementation 'com.samjakob:SpiGUI:v1.3.1'
+
+    // Sql
+    implementation 'com.zaxxer:HikariCP:4.0.3'
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+
+    // Logging
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.13'
 }
 
 java {

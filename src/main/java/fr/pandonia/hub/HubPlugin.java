@@ -2,9 +2,13 @@ package fr.pandonia.hub;
 
 import com.samjakob.spigui.SpiGUI;
 import fr.pandonia.hub.api.gui.GuiManager;
+import fr.pandonia.hub.api.player.PlayerService;
+import fr.pandonia.hub.api.player.SqlPlayerService;
+import fr.pandonia.hub.api.sql.HikariConnectionProvider;
 import fr.pandonia.hub.listeners.entity.EntityDamageListener;
 import fr.pandonia.hub.listeners.entity.FoodLevelChangeListener;
 import fr.pandonia.hub.listeners.inventory.InventoryClickListener;
+import fr.pandonia.hub.listeners.player.PlayerChatListener;
 import fr.pandonia.hub.listeners.player.PlayerDropItemListener;
 import fr.pandonia.hub.listeners.player.PlayerInteractListener;
 import fr.pandonia.hub.listeners.player.PlayerJoinListener;
@@ -16,16 +20,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class HubPlugin extends JavaPlugin {
 
+    private HikariConnectionProvider connectionProvider;
+
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
+        // Sql
+        connectionProvider = new HikariConnectionProvider(getConfig());
+
         // Gui
         SpiGUI spigui = new SpiGUI(this);
         GuiManager guiManager = new GuiManager(spigui);
+
+        // Services
+        PlayerService playerService = new SqlPlayerService(connectionProvider);
 
         registerListeners(
                 new EntityDamageListener(),
                 new FoodLevelChangeListener(),
                 new InventoryClickListener(),
+                new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(guiManager),
                 new PlayerJoinListener(),
@@ -37,6 +52,10 @@ public class HubPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (connectionProvider != null) {
+            connectionProvider.close();
+        }
+
         getLogger().info("Plugin disabled");
     }
 
