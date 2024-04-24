@@ -1,9 +1,9 @@
 package fr.pandonia.hub.guis;
 
-import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.game.Game;
 import fr.pandonia.hub.api.game.GameType;
+import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -16,12 +16,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainGui extends FastInv {
+public class MainGui extends Gui {
 
     private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 45, 46, 47, 51, 52, 53};
 
     public MainGui(Player player) {
-        super(54, "§f(§c!§f) §aMenu Principal");
+        super(6, "§f(§c!§f) §aMenu Principal");
 
         for (int slot : BACKGROUND_SLOTS) {
             setItem(slot, new ItemBuilder(Material.STAINED_GLASS).data(DyeColor.ORANGE.ordinal()).name(ItemUtils.EMPTY_NAME).build());
@@ -81,22 +81,6 @@ public class MainGui extends FastInv {
         setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR));
 
         setItem(50, getButton("§3§lProfil", Material.SKULL_ITEM));
-    }
-
-    private ItemStack getButton(String name, Material material, List<String> lore) {
-        ItemStack item = material == Material.SKULL_ITEM
-                ? ItemUtils.getPlayerSkull()
-                : new ItemStack(material);
-
-        return new ItemBuilder(item)
-                .name(name)
-                .lore(lore)
-                .flags()
-                .build();
-    }
-
-    private ItemStack getButton(String name, Material material) {
-        return getButton(name, material, Collections.emptyList());
     }
 
     private ItemStack getMenuButton(String name, Material material, List<String> lore) {
