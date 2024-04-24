@@ -3,9 +3,7 @@ package fr.pandonia.hub.api.utils;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class ItemUtils {
@@ -21,15 +19,6 @@ public class ItemUtils {
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwner(owner.getName());
-
-        item.setItemMeta(meta);
-
-        return item;
-    }
-
-    public static ItemStack hideFlags(ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(ItemFlag.values());
 
         item.setItemMeta(meta);
 

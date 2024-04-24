@@ -1,6 +1,5 @@
 package fr.pandonia.hub.listeners.player;
 
-import fr.pandonia.hub.api.gui.GuiManager;
 import fr.pandonia.hub.guis.MainGui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,12 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public class PlayerInteractListener implements Listener {
-
-    private final GuiManager guiManager;
-
-    public PlayerInteractListener(GuiManager guiManager) {
-        this.guiManager = guiManager;
-    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -37,7 +30,7 @@ public class PlayerInteractListener implements Listener {
 
         switch (item.getType()) {
             case COMPASS:
-                guiManager.open(player, new MainGui());
+                new MainGui(player).open(player);
                 break;
         }
     }

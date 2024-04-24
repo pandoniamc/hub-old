@@ -1,11 +1,9 @@
 package fr.pandonia.hub.guis;
 
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.item.ItemBuilder;
-import com.samjakob.spigui.menu.SGMenu;
+import fr.mrmicky.fastinv.FastInv;
+import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.game.Game;
 import fr.pandonia.hub.api.game.GameType;
-import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -18,24 +16,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainGui extends Gui {
+public class MainGui extends FastInv {
 
-    public MainGui() {
-        super("§f(§c!§f) §aMenu Principal", 6);
-    }
+    private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 45, 46, 47, 51, 52, 53};
 
-    @Override
-    public void configure(Player player, SGMenu menu) {
-        int[] backgroundSlots = {0, 1, 2, 6, 7, 8, 45, 46, 47, 51, 52, 53};
+    public MainGui(Player player) {
+        super(54, "§f(§c!§f) §aMenu Principal");
 
-        for (int slot : backgroundSlots) {
-            menu.setButton(slot, getButton(ItemUtils.EMPTY_NAME, new ItemStack(Material.STAINED_GLASS, 1, (byte) DyeColor.ORANGE.ordinal())));
+        for (int slot : BACKGROUND_SLOTS) {
+            setItem(slot, new ItemBuilder(Material.STAINED_GLASS).data(DyeColor.ORANGE.ordinal()).name(ItemUtils.EMPTY_NAME).build());
         }
 
         // Side
         if (player.hasPermission("menu.server")) {
-            menu.setButton(18,
-                    getMenuButton("§f§lServeur Customisé", new ItemStack(Material.COMMAND_MINECART), Arrays.asList(
+            setItem(18,
+                    getMenuButton("§f§lServeur Customisé", Material.COMMAND_MINECART, Arrays.asList(
                             "§7Tout ce qu’il faut pour",
                             "§7démarrer et configurer",
                             "§7son §eserveur customisé §7!"
@@ -43,14 +38,8 @@ public class MainGui extends Gui {
             );
         }
 
-        menu.setButton(27,
-                getMenuButton("§b§lInvitations", ItemUtils.getPlayerSkull(), Collections.singletonList(
-                        "§7Vous avez §30 §7invitation(s)"
-                ))
-        );
-
-        menu.setButton(26,
-                getMenuButton("§6§lBoutique", new ItemStack(Material.GOLD_INGOT), Arrays.asList(
+        setItem(26,
+                getMenuButton("§6§lBoutique", Material.GOLD_INGOT, Arrays.asList(
                         "§7Cosmétiques ou grades, n’hésitez pas",
                         "§7à soutenir §3§lPandonia §7!",
                         "§7Tu peux obtenir divers avantages",
@@ -58,8 +47,14 @@ public class MainGui extends Gui {
                 ))
         );
 
-        menu.setButton(35,
-                getButton("§b§lLiens", new ItemStack(Material.SIGN), Arrays.asList(
+        setItem(27,
+                getMenuButton("§b§lInvitations", Material.SKULL_ITEM, Collections.singletonList(
+                        "§7Vous avez §30 §7invitation(s)"
+                ))
+        );
+
+        setItem(35,
+                getButton("§b§lLiens", Material.SIGN, Arrays.asList(
                         "          §b§l» §3§lPandonia §7§l: §dLiens §b§l«",
                         "§8▪ §fSite : §bhttps://pandonia.fr/",
                         "§8▪ §fDiscord : §bhttps://pandonia.fr/discord",
@@ -69,54 +64,59 @@ public class MainGui extends Gui {
         );
 
         // Games
-        menu.setButton(21, getGameButton(Game.ARENA));
-        menu.setButton(22, getGameButton(Game.UHC));
-        menu.setButton(23, getGameButton(Game.ENMU_PARTY));
-        menu.setButton(31, getGameButton(Game.CAPTURE_THE_SHEEP));
+        setItem(21, getGameButton(Game.ARENA));
+        setItem(22, getGameButton(Game.UHC));
+        setItem(23, getGameButton(Game.ENMU_PARTY));
+        setItem(31, getGameButton(Game.CAPTURE_THE_SHEEP));
 
         // Footer
         if (player.hasPermission("menu.staff")) {
-            menu.setButton(48,
-                    getMenuButton("§2§lMenu Staff", ItemUtils.getPlayerSkull(), Collections.singletonList(
+            setItem(48,
+                    getMenuButton("§2§lMenu Staff", Material.SKULL_ITEM, Collections.singletonList(
                             "§7Les meilleurs outils pour le Staff"
                     ), "Staff")
             );
         }
-        menu.setButton(49, getButton("§a§lSpawn", new ItemStack(Material.NETHER_STAR)));
-        menu.setButton(50, getButton("§3§lProfil", ItemUtils.getPlayerSkull()));
+
+        setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR));
+
+        setItem(50, getButton("§3§lProfil", Material.SKULL_ITEM));
     }
 
-    private SGButton getButton(String name, ItemStack item, List<String> lore) {
-        return new SGButton(
-                new ItemBuilder(item)
-                        .name(name)
-                        .lore(lore)
-                        .build()
-        );
+    private ItemStack getButton(String name, Material material, List<String> lore) {
+        ItemStack item = material == Material.SKULL_ITEM
+                ? ItemUtils.getPlayerSkull()
+                : new ItemStack(material);
+
+        return new ItemBuilder(item)
+                .name(name)
+                .lore(lore)
+                .flags()
+                .build();
     }
 
-    private SGButton getButton(String name, ItemStack item) {
-        return getButton(name, item, Collections.emptyList());
+    private ItemStack getButton(String name, Material material) {
+        return getButton(name, material, Collections.emptyList());
     }
 
-    private SGButton getMenuButton(String name, ItemStack item, List<String> lore) {
+    private ItemStack getMenuButton(String name, Material material, List<String> lore) {
         List<String> formattedLore = new ArrayList<>(lore);
         formattedLore.add("");
         formattedLore.add("§3§l» §bCliquez pour y accéder");
 
-        return getButton(name, item, formattedLore);
+        return getButton(name, material, formattedLore);
     }
 
-    private SGButton getMenuButton(String name, ItemStack item, List<String> lore, String access) {
+    private ItemStack getMenuButton(String name, Material material, List<String> lore, String access) {
         List<String> formattedLore = new ArrayList<>();
         formattedLore.add("§8Accès : " + access);
         formattedLore.add("");
         formattedLore.addAll(lore);
 
-        return getMenuButton(name, item, formattedLore);
+        return getMenuButton(name, material, formattedLore);
     }
 
-    private SGButton getGameButton(Game game) {
+    private ItemStack getGameButton(Game game) {
         List<String> lore = new ArrayList<>();
         lore.add("§7Genre : §3" + game.getTypes().stream().map(GameType::getName).collect(Collectors.joining("/")));
         lore.add("");
@@ -130,6 +130,6 @@ public class MainGui extends Gui {
         lore.add("");
         lore.add("§3§l» §bCliquez pour rejoindre");
 
-        return getButton(game.getName(), game.getItem(), lore);
+        return getButton(game.getName(), game.getMaterial(), lore);
     }
 }

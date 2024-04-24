@@ -1,6 +1,6 @@
 package fr.pandonia.hub.listeners.player;
 
-import com.samjakob.spigui.item.ItemBuilder;
+import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import fr.pandonia.hub.api.utils.Pair;

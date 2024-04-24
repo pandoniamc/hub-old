@@ -1,7 +1,6 @@
 package fr.pandonia.hub;
 
-import com.samjakob.spigui.SpiGUI;
-import fr.pandonia.hub.api.gui.GuiManager;
+import fr.mrmicky.fastinv.FastInvManager;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.player.SqlPlayerService;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
@@ -28,8 +27,7 @@ public class HubPlugin extends JavaPlugin {
         connectionProvider = new HikariConnectionProvider(getConfig());
 
         // Gui
-        SpiGUI spigui = new SpiGUI(this);
-        GuiManager guiManager = new GuiManager(spigui);
+        FastInvManager.register(this);
 
         // Services
         PlayerService playerService = new SqlPlayerService(connectionProvider);
@@ -42,7 +40,7 @@ public class HubPlugin extends JavaPlugin {
                 new InventoryClickListener(),
                 new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
-                new PlayerInteractListener(guiManager),
+                new PlayerInteractListener(),
                 new PlayerJoinListener(scoreboardManager),
                 new PlayerQuitListener(scoreboardManager),
                 new WeatherChangeListener()
