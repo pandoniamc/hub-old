@@ -61,4 +61,8 @@ public enum Group {
     public String getMessageFormat() {
         return messageFormat;
     }
+
+    public boolean hasPermission(Group group) {
+        return ordinal() <= group.ordinal();
+    }
 }

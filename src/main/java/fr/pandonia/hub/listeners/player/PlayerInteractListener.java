@@ -1,5 +1,7 @@
 package fr.pandonia.hub.listeners.player;
 
+import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.guis.MainGui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public class PlayerInteractListener implements Listener {
+
+    private final PlayerService playerService;
+
+    public PlayerInteractListener(PlayerService playerService) {
+        this.playerService = playerService;
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -27,10 +35,11 @@ public class PlayerInteractListener implements Listener {
         }
 
         Player player = event.getPlayer();
+        Group group = playerService.getGroup(player);
 
         switch (item.getType()) {
             case COMPASS:
-                new MainGui(player).open(player);
+                new MainGui(group).open(player);
                 break;
         }
     }

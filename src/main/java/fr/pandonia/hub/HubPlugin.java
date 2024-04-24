@@ -40,7 +40,7 @@ public class HubPlugin extends JavaPlugin {
                 new InventoryClickListener(),
                 new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
-                new PlayerInteractListener(),
+                new PlayerInteractListener(playerService),
                 new PlayerJoinListener(scoreboardManager),
                 new PlayerQuitListener(scoreboardManager),
                 new WeatherChangeListener()
