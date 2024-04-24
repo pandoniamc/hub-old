@@ -21,7 +21,7 @@ public class StaffGui extends Gui {
         super(player, 5, "§f(§c!§f) §dStaff");
 
         for (int slot : BACKGROUND_SLOTS) {
-            setItem(slot, new ItemBuilder(Material.STAINED_GLASS).data(DyeColor.MAGENTA.ordinal()).name(ItemUtils.EMPTY_NAME).build());
+            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(DyeColor.MAGENTA.ordinal()).name(ItemUtils.EMPTY_NAME).build());
         }
 
         setItem(20,

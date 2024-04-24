@@ -27,7 +27,7 @@ public class MainGui extends Gui {
         super(player, 6, "§f(§c!§f) §aMenu Principal");
 
         for (int slot : BACKGROUND_SLOTS) {
-            setItem(slot, new ItemBuilder(Material.STAINED_GLASS).data(DyeColor.ORANGE.ordinal()).name(ItemUtils.EMPTY_NAME).build());
+            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(DyeColor.ORANGE.ordinal()).name(ItemUtils.EMPTY_NAME).build());
         }
 
         // Side
