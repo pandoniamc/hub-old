@@ -53,8 +53,8 @@ public class SqlPlayerService implements PlayerService {
     @Override
     public List<HubPlayer> getStaffList() {
         try (Connection connection = connectionProvider.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT p.uuid, g.id FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id < ?")) {
-                statement.setInt(1, Group.STAFF.ordinal());
+            try (PreparedStatement statement = connection.prepareStatement("SELECT p.uuid, g.id FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id <= ?")) {
+                statement.setInt(1, Group.STAFF.ordinal() + 1);
 
                 try (ResultSet result = statement.executeQuery()) {
                     List<HubPlayer> staff = new ArrayList<>();
