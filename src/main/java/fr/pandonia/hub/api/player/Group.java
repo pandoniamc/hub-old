@@ -42,6 +42,10 @@ public enum Group {
         this(name, color, null);
     }
 
+    public static Group valueOf(int id) {
+        return values()[id - 1];
+    }
+
     public String getName() {
         return name;
     }

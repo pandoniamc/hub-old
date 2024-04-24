@@ -6,6 +6,7 @@ import fr.pandonia.hub.api.gui.GuiClick;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.utils.ItemUtils;
+import fr.pandonia.hub.guis.staff.StaffListGui;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,6 +38,7 @@ public class StaffGui extends Gui {
                         "§7Accède à la liste",
                         "§7de l’équipe du projet."
                 ), GuiClick.OPEN_GUI),
+                e -> new StaffListGui(player).open((Player) e.getWhoClicked()),
                 Group.STAFF
         );
 

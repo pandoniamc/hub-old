@@ -1,5 +1,6 @@
 package fr.pandonia.hub.api.player;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface PlayerService {
@@ -9,4 +10,6 @@ public interface PlayerService {
     void unloadData(UUID id);
 
     HubPlayer getPlayer(UUID id);
+
+    List<HubPlayer> getStaffList();
 }

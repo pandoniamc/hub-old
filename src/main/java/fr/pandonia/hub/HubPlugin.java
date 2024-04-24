@@ -17,10 +17,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class HubPlugin extends JavaPlugin {
 
+    private static HubPlugin INSTANCE;
+
     private HikariConnectionProvider connectionProvider;
+
+    private PlayerService playerService;
+
+    public static HubPlugin getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public void onEnable() {
+        INSTANCE = this;
+
         saveDefaultConfig();
 
         // Sql
@@ -30,7 +40,7 @@ public class HubPlugin extends JavaPlugin {
         FastInvManager.register(this);
 
         // Services
-        PlayerService playerService = new SqlPlayerService(connectionProvider);
+        playerService = new SqlPlayerService(connectionProvider);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
 
@@ -56,6 +66,10 @@ public class HubPlugin extends JavaPlugin {
         }
 
         getLogger().info("Plugin disabled");
+    }
+
+    public PlayerService getPlayerService() {
+        return playerService;
     }
 
     private void registerListeners(Listener... listeners) {
