@@ -3,6 +3,7 @@ package fr.pandonia.hub.api.gui;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,16 +17,16 @@ import java.util.function.Consumer;
 
 public abstract class Gui extends FastInv {
 
-    private final Group playerGroup;
+    private final HubPlayer player;
 
-    public Gui(Group playerGroup, int rows, String title) {
+    public Gui(HubPlayer player, int rows, String title) {
         super(9 * rows, title);
 
-        this.playerGroup = playerGroup;
+        this.player = player;
     }
 
     protected void setItem(int slot, ItemStack item, Consumer<InventoryClickEvent> handler, Group group) {
-        if (playerGroup.hasPermission(group)) {
+        if (player.is(group)) {
             ItemMeta meta = item.getItemMeta();
 
             List<String> lore = meta.getLore();

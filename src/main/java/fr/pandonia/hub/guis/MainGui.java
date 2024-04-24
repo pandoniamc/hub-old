@@ -6,6 +6,7 @@ import fr.pandonia.hub.api.game.GameType;
 import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.gui.GuiClick;
 import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -22,8 +23,8 @@ public class MainGui extends Gui {
 
     private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 45, 46, 47, 51, 52, 53};
 
-    public MainGui(Group playerGroup) {
-        super(playerGroup, 6, "§f(§c!§f) §aMenu Principal");
+    public MainGui(HubPlayer player) {
+        super(player, 6, "§f(§c!§f) §aMenu Principal");
 
         for (int slot : BACKGROUND_SLOTS) {
             setItem(slot, new ItemBuilder(Material.STAINED_GLASS).data(DyeColor.ORANGE.ordinal()).name(ItemUtils.EMPTY_NAME).build());
@@ -75,7 +76,7 @@ public class MainGui extends Gui {
                 getMenuButton("§2§lMenu Staff", Material.SKULL_ITEM, Collections.singletonList(
                         "§7Les meilleurs outils pour le Staff"
                 ), GuiClick.OPEN_GUI),
-                e -> new StaffGui(playerGroup).open((Player) e.getWhoClicked()),
+                e -> new StaffGui(player).open((Player) e.getWhoClicked()),
                 Group.STAFF
         );
 

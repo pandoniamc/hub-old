@@ -1,6 +1,6 @@
 package fr.pandonia.hub.listeners.player;
 
-import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.guis.MainGui;
 import org.bukkit.entity.Player;
@@ -35,11 +35,11 @@ public class PlayerInteractListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        Group group = playerService.getGroup(player);
+        HubPlayer hubPlayer = playerService.getPlayer(player.getUniqueId());
 
         switch (item.getType()) {
             case COMPASS:
-                new MainGui(group).open(player);
+                new MainGui(hubPlayer).open(player);
                 break;
         }
     }

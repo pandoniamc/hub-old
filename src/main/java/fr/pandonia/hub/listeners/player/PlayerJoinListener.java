@@ -1,9 +1,11 @@
 package fr.pandonia.hub.listeners.player;
 
 import fr.mrmicky.fastinv.ItemBuilder;
+import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import fr.pandonia.hub.api.utils.Pair;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +32,13 @@ public class PlayerJoinListener implements Listener {
 
     private static final String HOTBAR_ITEM_NAME_FORMAT = "%s§r §8▪ §7Clic-Droit";
 
+    private final Plugin plugin;
+    private final PlayerService playerService;
     private final ScoreboardManager scoreboardManager;
 
-    public PlayerJoinListener(ScoreboardManager scoreboardManager) {
+    public PlayerJoinListener(Plugin plugin, PlayerService playerService, ScoreboardManager scoreboardManager) {
+        this.plugin = plugin;
+        this.playerService = playerService;
         this.scoreboardManager = scoreboardManager;
     }
 
@@ -60,6 +67,8 @@ public class PlayerJoinListener implements Listener {
                                 .build()
                 )
         );
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> playerService.loadData(player.getUniqueId()));
 
         scoreboardManager.addPlayer(player);
 

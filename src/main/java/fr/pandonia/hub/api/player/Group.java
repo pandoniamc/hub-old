@@ -50,6 +50,10 @@ public enum Group {
         return color;
     }
 
+    public String getColoredName() {
+        return color + name;
+    }
+
     public Optional<String> getPrefix() {
         if (prefix == null) {
             return Optional.empty();
@@ -62,7 +66,7 @@ public enum Group {
         return messageFormat;
     }
 
-    public boolean hasPermission(Group group) {
+    public boolean is(Group group) {
         return ordinal() <= group.ordinal();
     }
 }

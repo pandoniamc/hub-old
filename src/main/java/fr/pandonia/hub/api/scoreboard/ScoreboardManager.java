@@ -1,7 +1,7 @@
 package fr.pandonia.hub.api.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
-import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -54,12 +54,12 @@ public class ScoreboardManager {
 
         private void updateBoard(FastBoard board) {
             Player player = board.getPlayer();
-            Group group = playerService.getGroup(player);
+            HubPlayer hubPlayer = playerService.getPlayer(player.getUniqueId());
 
             board.updateLines(
                     "§a§l┃ PROFIL",
                     String.format(" §7» §fPseudo §8▪ §3%s", player.getName()),
-                    String.format(" §7» §fGrade §8▪ %s%s", group.getColor(), group.getName()),
+                    String.format(" §7» §fGrade §8▪ %s", hubPlayer.getGroup().getColoredName()),
                     "",
                     "§e§l┃ MONNAIES",
                     " §7» §fKamas §8▪ §e<kamas> ⛁",

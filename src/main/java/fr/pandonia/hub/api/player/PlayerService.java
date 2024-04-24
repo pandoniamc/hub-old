@@ -1,8 +1,12 @@
 package fr.pandonia.hub.api.player;
 
-import org.bukkit.entity.Player;
+import java.util.UUID;
 
 public interface PlayerService {
 
-    Group getGroup(Player player);
+    HubPlayer loadData(UUID id);
+
+    void unloadData(UUID id);
+
+    HubPlayer getPlayer(UUID id);
 }

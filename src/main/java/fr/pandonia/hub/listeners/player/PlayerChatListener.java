@@ -1,8 +1,8 @@
 package fr.pandonia.hub.listeners.player;
 
 import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -19,8 +19,8 @@ public class PlayerChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        Group group = playerService.getGroup(player);
+        HubPlayer hubPlayer = playerService.getPlayer(event.getPlayer().getUniqueId());
+        Group group = hubPlayer.getGroup();
 
         event.setFormat(String.format(CHAT_FORMAT, group.getPrefix().map(prefix -> prefix + " ").orElse(""), group.getColor(), group.getMessageFormat()));
     }
