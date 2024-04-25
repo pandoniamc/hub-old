@@ -5,26 +5,35 @@ import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.HubPlayer;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class Gui extends FastInv {
 
-    private final HubPlayer player;
+    private Gui parent;
 
-    public Gui(HubPlayer player, int rows, String title) {
+    public Gui(int rows, String title) {
         super(9 * rows, title);
-
-        this.player = player;
     }
 
-    protected void setItem(int slot, ItemStack item, Consumer<InventoryClickEvent> handler, Group group) {
+    public void open(HubPlayer player) {
+        configure(player);
+        super.open(player.asBukkit());
+    }
+
+    protected abstract void configure(HubPlayer player);
+
+    protected void setReturn(int slot) {
+        setItem(slot, getButton("§cRetour en arrière", Material.ARROW), e -> parent.open((Player) e.getWhoClicked()));
+    }
+
+    protected void setItem(int slot, ItemStack item, Consumer<InventoryClickEvent> handler, HubPlayer player, Group group) {
         if (player.is(group)) {
             ItemMeta meta = item.getItemMeta();
 
@@ -39,8 +48,26 @@ public abstract class Gui extends FastInv {
         }
     }
 
-    protected void setItem(int slot, ItemStack item, Group group) {
-        setItem(slot, item, e -> {}, group);
+    protected void setSwitch(int slot, ItemStack item, HubPlayer player, Group group) {
+        ItemMeta meta = item.getItemMeta();
+
+        List<String> lore = meta.getLore();
+        lore.add("");
+        lore.add("§3§l» §bCliquez pour y accéder");
+        meta.setLore(lore);
+
+        item.setItemMeta(meta);
+
+        setItem(slot, item, e -> {
+        }, player, group);
+    }
+
+    protected void setGui(int slot, ItemStack item, Gui gui, HubPlayer player, Group group) {
+        setItem(slot, prepareGui(item, gui), e -> gui.open(player), player, group);
+    }
+
+    protected void setGui(int slot, ItemStack item, Gui gui, HubPlayer player) {
+        setItem(slot, prepareGui(item, gui), e -> gui.open(player));
     }
 
     protected ItemStack getButton(String name, ItemStack item, List<String> lore) {
@@ -63,15 +90,20 @@ public abstract class Gui extends FastInv {
         return getButton(name, new ItemStack(material));
     }
 
-    protected ItemStack getMenuButton(String name, ItemStack item, List<String> lore, GuiClick click) {
-        List<String> formattedLore = new ArrayList<>(lore);
-        formattedLore.add("");
-        formattedLore.add(String.format("§3§l» §b%s", click.getMessage()));
+    private ItemStack prepareGui(ItemStack item, Gui gui) {
+        gui.parent = this;
 
-        return getButton(name, item, formattedLore);
-    }
+        ItemMeta meta = item.getItemMeta();
 
-    protected ItemStack getMenuButton(String name, Material material, List<String> lore, GuiClick click) {
-        return getMenuButton(name, new ItemStack(material), lore, click);
+        List<String> lore = meta.getLore();
+        if (!lore.isEmpty()) {
+            lore.add("");
+        }
+        lore.add("§3§l» §bCliquez pour y accéder");
+        meta.setLore(lore);
+
+        item.setItemMeta(meta);
+
+        return item;
     }
 }
