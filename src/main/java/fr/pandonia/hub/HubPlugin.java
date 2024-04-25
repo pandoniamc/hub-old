@@ -11,12 +11,14 @@ import fr.pandonia.hub.listeners.inventory.InventoryClickListener;
 import fr.pandonia.hub.listeners.player.*;
 import fr.pandonia.hub.listeners.weather.WeatherChangeListener;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HubPlugin extends JavaPlugin {
 
+    private static FileConfiguration configuration;
     private static PlayerService playerService;
 
     private HikariConnectionProvider connectionProvider;
@@ -24,6 +26,9 @@ public class HubPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+
+        // Config
+        configuration = getConfig();
 
         // Sql
         connectionProvider = new HikariConnectionProvider(getConfig());
@@ -42,7 +47,7 @@ public class HubPlugin extends JavaPlugin {
                 new InventoryClickListener(),
                 new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
-                new PlayerInteractListener(playerService),
+                new PlayerInteractListener(getConfig(), playerService),
                 new PlayerJoinListener(this, playerService, scoreboardManager),
                 new PlayerQuitListener(this, playerService, scoreboardManager),
                 new WeatherChangeListener()
@@ -58,6 +63,10 @@ public class HubPlugin extends JavaPlugin {
         }
 
         getLogger().info("Plugin disabled");
+    }
+
+    public static FileConfiguration getConfiguration() {
+        return configuration;
     }
 
     public static PlayerService getPlayerService() {

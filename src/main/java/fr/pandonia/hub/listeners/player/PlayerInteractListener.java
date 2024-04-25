@@ -2,7 +2,12 @@ package fr.pandonia.hub.listeners.player;
 
 import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
+import fr.pandonia.hub.guis.HubGui;
 import fr.pandonia.hub.guis.MainGui;
+import fr.pandonia.hub.guis.ProfileGui;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -13,9 +18,11 @@ import java.util.Arrays;
 
 public class PlayerInteractListener implements Listener {
 
+    private final FileConfiguration configuration;
     private final PlayerService playerService;
 
-    public PlayerInteractListener(PlayerService playerService) {
+    public PlayerInteractListener(FileConfiguration configuration, PlayerService playerService) {
+        this.configuration = configuration;
         this.playerService = playerService;
     }
 
@@ -33,11 +40,28 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        HubPlayer player = playerService.getPlayer(event.getPlayer().getUniqueId());
+        Player player = event.getPlayer();
+        HubPlayer hubPlayer = playerService.getPlayer(player.getUniqueId());
 
         switch (item.getType()) {
             case COMPASS:
-                new MainGui().open(player);
+                new MainGui().open(hubPlayer);
+
+                break;
+
+            case SKULL_ITEM:
+                new ProfileGui().open(hubPlayer);
+
+                break;
+
+            case FEATHER:
+                player.teleport((Location) configuration.get("jump"));
+
+                break;
+
+            case BEACON:
+                new HubGui().open(hubPlayer);
+
                 break;
         }
     }

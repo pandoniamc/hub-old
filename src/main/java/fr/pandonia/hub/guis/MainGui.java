@@ -1,6 +1,7 @@
 package fr.pandonia.hub.guis;
 
 import fr.mrmicky.fastinv.ItemBuilder;
+import fr.pandonia.hub.HubPlugin;
 import fr.pandonia.hub.api.game.Game;
 import fr.pandonia.hub.api.game.GameType;
 import fr.pandonia.hub.api.gui.Gui;
@@ -8,6 +9,7 @@ import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -68,7 +70,7 @@ public class MainGui extends Gui {
                 "§7Les meilleurs outils pour le Staff"
         )), new StaffGui(), player, Group.STAFF);
 
-        setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR));
+        setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR), e -> e.getWhoClicked().teleport((Location) HubPlugin.getConfiguration().get("spawn")));
 
         setGui(50, getButton("§3§lProfil", ItemUtils.getPlayerSkull(player.asBukkit())), new ProfileGui(), player);
     }
