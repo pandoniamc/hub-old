@@ -50,7 +50,7 @@ public class MainGui extends Gui {
         );
 
         setItem(27,
-                getMenuButton("§b§lInvitations", Material.SKULL_ITEM, Collections.singletonList(
+                getMenuButton("§b§lInvitations", ItemUtils.getPlayerSkull(), Collections.singletonList(
                         "§7Vous avez §30 §7invitation(s)"
                 ), GuiClick.OPEN_GUI)
         );
@@ -73,7 +73,7 @@ public class MainGui extends Gui {
 
         // Footer
         setItem(48,
-                getMenuButton("§2§lMenu Staff", Material.SKULL_ITEM, Collections.singletonList(
+                getMenuButton("§2§lMenu Staff", ItemUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5NjAxODNhMzVmZmVlM2Y1NDY2ZTY2YmFhYWNiYWFiMzVkYzJkMTQzODVmMDE3OWVlNmIzYWEzYzhmN2QwYyJ9fX0="), Collections.singletonList(
                         "§7Les meilleurs outils pour le Staff"
                 ), GuiClick.OPEN_GUI),
                 e -> new StaffGui(player).open((Player) e.getWhoClicked()),
@@ -82,7 +82,7 @@ public class MainGui extends Gui {
 
         setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR));
 
-        setItem(50, getButton("§3§lProfil", Material.SKULL_ITEM));
+        setItem(50, getButton("§3§lProfil", ItemUtils.getPlayerSkull(player.asBukkit())));
     }
 
     private ItemStack getGameButton(Game game) {
@@ -99,6 +99,6 @@ public class MainGui extends Gui {
         lore.add("");
         lore.add("§3§l» §bCliquez pour rejoindre");
 
-        return getButton(game.getName(), game.getMaterial(), lore);
+        return getButton(game.getName(), game.getItem(), lore);
     }
 }

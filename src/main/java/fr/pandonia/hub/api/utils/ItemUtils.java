@@ -14,14 +14,18 @@ public class ItemUtils {
         return new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
     }
 
-    public static ItemStack getPlayerSkull(Player owner) {
+    public static ItemStack getPlayerSkull(String url) {
         ItemStack item = getPlayerSkull();
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(owner.getName());
+        meta.setOwner(url);
 
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    public static ItemStack getPlayerSkull(Player owner) {
+        return getPlayerSkull(owner.getName());
     }
 }

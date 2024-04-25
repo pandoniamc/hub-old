@@ -4,7 +4,6 @@ import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.HubPlayer;
-import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -44,11 +43,7 @@ public abstract class Gui extends FastInv {
         setItem(slot, item, e -> {}, group);
     }
 
-    protected ItemStack getButton(String name, Material material, List<String> lore) {
-        ItemStack item = material == Material.SKULL_ITEM
-                ? ItemUtils.getPlayerSkull()
-                : new ItemStack(material);
-
+    protected ItemStack getButton(String name, ItemStack item, List<String> lore) {
         return new ItemBuilder(item)
                 .name(name)
                 .lore(lore)
@@ -56,15 +51,27 @@ public abstract class Gui extends FastInv {
                 .build();
     }
 
-    protected ItemStack getButton(String name, Material material) {
-        return getButton(name, material, Collections.emptyList());
+    protected ItemStack getButton(String name, Material material, List<String> lore) {
+        return getButton(name, new ItemStack(material), lore);
     }
 
-    protected ItemStack getMenuButton(String name, Material material, List<String> lore, GuiClick click) {
+    protected ItemStack getButton(String name, ItemStack item) {
+        return getButton(name, item, Collections.emptyList());
+    }
+
+    protected ItemStack getButton(String name, Material material) {
+        return getButton(name, new ItemStack(material));
+    }
+
+    protected ItemStack getMenuButton(String name, ItemStack item, List<String> lore, GuiClick click) {
         List<String> formattedLore = new ArrayList<>(lore);
         formattedLore.add("");
         formattedLore.add(String.format("§3§l» §b%s", click.getMessage()));
 
-        return getButton(name, material, formattedLore);
+        return getButton(name, item, formattedLore);
+    }
+
+    protected ItemStack getMenuButton(String name, Material material, List<String> lore, GuiClick click) {
+        return getMenuButton(name, new ItemStack(material), lore, click);
     }
 }

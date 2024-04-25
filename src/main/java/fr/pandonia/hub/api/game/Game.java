@@ -1,6 +1,8 @@
 package fr.pandonia.hub.api.game;
 
+import fr.pandonia.hub.api.utils.ItemUtils;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,7 +22,7 @@ public enum Game {
             "§7et ramène le dans ton camps",
             "§7pour gagner la partie !"
     )),
-    ENMU_PARTY("§3§lEnmuParty", Material.SKULL_ITEM, Collections.singletonList(GameType.PVP), Arrays.asList(
+    ENMU_PARTY("§3§lEnmuParty", ItemUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JmYWQxYzk3Yjk5ODgxNGE4ZGIyYzFjZWYxNTBhMzNkMzg3NzRiYjI2YzJmMTZlY2E3YjJkNTQ5MGUwNzM5MSJ9fX0="), Collections.singletonList(GameType.PVP), Arrays.asList(
             "§7Installez-vous dans le §c§lTrain",
             "§c§ld’Enmu §7et incarne les",
             "§7personnages phare pour",
@@ -33,23 +35,27 @@ public enum Game {
     ));
 
     private final String name;
-    private final Material material;
+    private final ItemStack item;
     private final List<GameType> types;
     private final List<String> lore;
 
-    Game(String name, Material material, List<GameType> types, List<String> lore) {
+    Game(String name, ItemStack item, List<GameType> types, List<String> lore) {
         this.name = name;
-        this.material = material;
+        this.item = item;
         this.types = types;
         this.lore = lore;
+    }
+
+    Game(String name, Material material, List<GameType> types, List<String> lore) {
+        this(name, new ItemStack(material), types, lore);
     }
 
     public String getName() {
         return name;
     }
 
-    public Material getMaterial() {
-        return material;
+    public ItemStack getItem() {
+        return item;
     }
 
     public List<GameType> getTypes() {
