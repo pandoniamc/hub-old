@@ -1,16 +1,16 @@
 package fr.pandonia.hub.guis;
 
 import fr.pandonia.hub.api.gui.Gui;
-import fr.pandonia.hub.api.player.HubPlayer;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
 
 public class ProfileGui extends Gui {
 
     public ProfileGui() {
-        super( 6, "§f(§c!§f) §3Profil");
+        super( 6, "Profil");
     }
 
     @Override
-    protected void configure(HubPlayer player) {
+    protected void configure(PandoniaPlayer player) {
 
     }
 }

@@ -3,7 +3,7 @@ package fr.pandonia.hub.listeners.player;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
-import fr.pandonia.hub.api.utils.SkullUtils;
+import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import fr.pandonia.hub.api.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -17,6 +17,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
 
@@ -45,6 +46,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        UUID playerId = player.getUniqueId();
 
         player.getInventory().clear();
         player.setGameMode(GameMode.ADVENTURE);
@@ -68,7 +70,7 @@ public class PlayerJoinListener implements Listener {
                 )
         );
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> playerService.loadData(player.getUniqueId()));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> playerService.cache(playerId));
 
         scoreboardManager.addPlayer(player);
 

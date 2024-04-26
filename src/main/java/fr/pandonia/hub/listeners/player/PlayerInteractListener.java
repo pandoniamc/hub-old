@@ -1,13 +1,12 @@
 package fr.pandonia.hub.listeners.player;
 
-import fr.pandonia.hub.api.player.HubPlayer;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.guis.HubGui;
 import fr.pandonia.hub.guis.MainGui;
 import fr.pandonia.hub.guis.ProfileGui;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -15,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class PlayerInteractListener implements Listener {
 
@@ -40,17 +40,17 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        Player player = event.getPlayer();
-        HubPlayer hubPlayer = playerService.getPlayer(player.getUniqueId());
+        UUID playerId = event.getPlayer().getUniqueId();
+        PandoniaPlayer player = playerService.get(playerId);
 
         switch (item.getType()) {
             case COMPASS:
-                new MainGui().open(hubPlayer);
+                new MainGui().open(player);
 
                 break;
 
             case SKULL_ITEM:
-                new ProfileGui().open(hubPlayer);
+                new ProfileGui().open(player);
 
                 break;
 
@@ -60,7 +60,7 @@ public class PlayerInteractListener implements Listener {
                 break;
 
             case BEACON:
-                new HubGui().open(hubPlayer);
+                new HubGui().open(player);
 
                 break;
         }

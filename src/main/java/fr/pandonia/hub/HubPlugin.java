@@ -2,42 +2,45 @@ package fr.pandonia.hub;
 
 import fr.mrmicky.fastinv.FastInvManager;
 import fr.pandonia.hub.api.player.PlayerService;
-import fr.pandonia.hub.api.player.SqlPlayerService;
+import fr.pandonia.hub.api.player.PlayerServiceImpl;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.sql.HikariConnectionProvider;
+import fr.pandonia.hub.api.sql.SqlCredentials;
+import fr.pandonia.hub.api.staff.StaffService;
+import fr.pandonia.hub.api.staff.StaffServiceImpl;
 import fr.pandonia.hub.listeners.entity.EntityDamageListener;
 import fr.pandonia.hub.listeners.entity.FoodLevelChangeListener;
 import fr.pandonia.hub.listeners.inventory.InventoryClickListener;
 import fr.pandonia.hub.listeners.player.*;
 import fr.pandonia.hub.listeners.weather.WeatherChangeListener;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HubPlugin extends JavaPlugin {
 
-    private static FileConfiguration configuration;
-    private static PlayerService playerService;
+    private static HubPlugin INSTANCE;
 
-    private HikariConnectionProvider connectionProvider;
+    private HikariConnectionProvider sqlConnectionProvider;
+
+    private StaffService staffService;
 
     @Override
     public void onEnable() {
+        INSTANCE = this;
+
         saveDefaultConfig();
 
-        // Config
-        configuration = getConfig();
-
-        // Sql
-        connectionProvider = new HikariConnectionProvider(getConfig());
+        SqlCredentials sqlCredentials = SqlCredentials.fromConfiguration(getConfig());
+        sqlConnectionProvider = new HikariConnectionProvider(sqlCredentials);
 
         // Gui
         FastInvManager.register(this);
 
         // Services
-        playerService = new SqlPlayerService(connectionProvider);
+        PlayerService playerService = new PlayerServiceImpl(sqlConnectionProvider);
+        staffService = new StaffServiceImpl(getLogger(), sqlConnectionProvider);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
 
@@ -49,7 +52,7 @@ public class HubPlugin extends JavaPlugin {
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(getConfig(), playerService),
                 new PlayerJoinListener(this, playerService, scoreboardManager),
-                new PlayerQuitListener(this, playerService, scoreboardManager),
+                new PlayerQuitListener(playerService, scoreboardManager),
                 new WeatherChangeListener()
         );
 
@@ -58,19 +61,19 @@ public class HubPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (connectionProvider != null) {
-            connectionProvider.close();
+        if (sqlConnectionProvider != null) {
+            sqlConnectionProvider.close();
         }
 
         getLogger().info("Plugin disabled");
     }
 
-    public static FileConfiguration getConfiguration() {
-        return configuration;
+    public static HubPlugin getInstance() {
+        return INSTANCE;
     }
 
-    public static PlayerService getPlayerService() {
-        return playerService;
+    public StaffService getStaffService() {
+        return staffService;
     }
 
     private void registerListeners(Listener... listeners) {

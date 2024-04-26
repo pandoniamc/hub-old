@@ -1,15 +1,12 @@
 package fr.pandonia.hub.api.player;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface PlayerService {
 
-    HubPlayer loadData(UUID id);
+    PandoniaPlayer cache(UUID playerId);
 
-    void unloadData(UUID id);
+    void remove(UUID playerId);
 
-    HubPlayer getPlayer(UUID id);
-
-    List<HubPlayer> getStaffList();
+    PandoniaPlayer get(UUID playerId);
 }

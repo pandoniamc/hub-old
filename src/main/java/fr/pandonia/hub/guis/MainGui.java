@@ -5,8 +5,9 @@ import fr.pandonia.hub.api.game.Game;
 import fr.pandonia.hub.api.game.GameType;
 import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.player.Group;
-import fr.pandonia.hub.api.player.HubPlayer;
-import fr.pandonia.hub.api.utils.SkullUtils;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.api.utils.skull.SkullTypes;
+import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,11 +24,11 @@ public class MainGui extends Gui {
     private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 45, 46, 47, 51, 52, 53};
 
     public MainGui() {
-        super(6, "§f(§c!§f) §aMenu Principal");
+        super(6, "Menu Principal");
     }
 
     @Override
-    protected void configure(HubPlayer player) {
+    protected void configure(PandoniaPlayer player) {
         setBackground(DyeColor.ORANGE.ordinal(), BACKGROUND_SLOTS);
 
         // Side
@@ -63,11 +64,11 @@ public class MainGui extends Gui {
         setItem(31, getGameButton(Game.CAPTURE_THE_SHEEP));
 
         // Footer
-        setGui(48, getButton("§2§lMenu Staff", SkullUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5NjAxODNhMzVmZmVlM2Y1NDY2ZTY2YmFhYWNiYWFiMzVkYzJkMTQzODVmMDE3OWVlNmIzYWEzYzhmN2QwYyJ9fX0="), Collections.singletonList(
+        setGui(48, getButton("§2§lMenu Staff", SkullUtils.getSkull(SkullTypes.STAFF), Collections.singletonList(
                 "§7Les meilleurs outils pour le Staff"
         )), new StaffGui(), player, Group.STAFF);
 
-        setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR), e -> e.getWhoClicked().teleport((Location) HubPlugin.getConfiguration().get("spawn")));
+        setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR), e -> e.getWhoClicked().teleport((Location) HubPlugin.getInstance().getConfig().get("spawn")));
 
         setGui(50, getButton("§3§lProfil", SkullUtils.getPlayerSkull(player.asBukkit())), new ProfileGui(), player);
     }

@@ -1,7 +1,7 @@
 package fr.pandonia.hub.api.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
-import fr.pandonia.hub.api.player.HubPlayer;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,14 +27,16 @@ public class ScoreboardManager {
     }
 
     public void addPlayer(Player player) {
+        UUID playerId = player.getUniqueId();
+
         FastBoard board = new FastBoard(player);
         board.updateTitle("§9§lPandonia");
 
-        scoreboards.put(player.getUniqueId(), board);
+        scoreboards.put(playerId, board);
     }
 
-    public void removePlayer(Player player) {
-        FastBoard board = scoreboards.remove(player.getUniqueId());
+    public void removePlayer(UUID playerId) {
+        FastBoard board = scoreboards.remove(playerId);
 
         if (board != null) {
             board.delete();
@@ -53,13 +55,13 @@ public class ScoreboardManager {
         }
 
         private void updateBoard(FastBoard board) {
-            Player player = board.getPlayer();
-            HubPlayer hubPlayer = playerService.getPlayer(player.getUniqueId());
+            UUID playerId = board.getPlayer().getUniqueId();
+            PandoniaPlayer player = playerService.get(playerId);
 
             board.updateLines(
                     "§a§l┃ PROFIL",
                     String.format(" §7» §fPseudo §8▪ §3%s", player.getName()),
-                    String.format(" §7» §fGrade §8▪ %s", hubPlayer.getGroup().getColoredName()),
+                    String.format(" §7» §fGrade §8▪ %s", player.getGroup().getColoredName()),
                     "",
                     "§e§l┃ MONNAIES",
                     " §7» §fKamas §8▪ §e<kamas> ⛁",

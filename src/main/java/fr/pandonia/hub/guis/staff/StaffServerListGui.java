@@ -1,16 +1,16 @@
 package fr.pandonia.hub.guis.staff;
 
 import fr.pandonia.hub.api.gui.Gui;
-import fr.pandonia.hub.api.player.HubPlayer;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
 
 public class StaffServerListGui extends Gui {
 
     public StaffServerListGui() {
-        super(5, "§f(§c!§f) §2Serveur(s) Staff");
+        super(5, "Serveur(s) Staff");
     }
 
     @Override
-    protected void configure(HubPlayer player) {
+    protected void configure(PandoniaPlayer player) {
 
     }
 }

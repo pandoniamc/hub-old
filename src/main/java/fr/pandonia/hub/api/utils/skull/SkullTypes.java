@@ -1,0 +1,8 @@
+package fr.pandonia.hub.api.utils.skull;
+
+public class SkullTypes {
+
+    public static String ENMU_PARTY = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JmYWQxYzk3Yjk5ODgxNGE4ZGIyYzFjZWYxNTBhMzNkMzg3NzRiYjI2YzJmMTZlY2E3YjJkNTQ5MGUwNzM5MSJ9fX0=";
+    public static String SERVER_CREATION = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDljNDVhMjRhYWFiZjQ5ZTIxN2MxNTQ4MzIwNDg0OGE3MzU4MmFiYTdmYWUxMGVlMmM1N2JkYjc2NDgyZiJ9fX0=";
+    public static String STAFF = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5NjAxODNhMzVmZmVlM2Y1NDY2ZTY2YmFhYWNiYWFiMzVkYzJkMTQzODVmMDE3OWVlNmIzYWEzYzhmN2QwYyJ9fX0=";
+}

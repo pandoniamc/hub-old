@@ -1,16 +1,16 @@
 package fr.pandonia.hub.guis;
 
 import fr.pandonia.hub.api.gui.Gui;
-import fr.pandonia.hub.api.player.HubPlayer;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
 
 public class HubGui extends Gui {
 
     public HubGui() {
-        super(3, "§f(§c!§f) §bHubs");
+        super(3, "Hubs");
     }
 
     @Override
-    protected void configure(HubPlayer player) {
+    protected void configure(PandoniaPlayer player) {
 
     }
 }
