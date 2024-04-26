@@ -3,7 +3,7 @@ package fr.pandonia.hub.listeners.player;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
-import fr.pandonia.hub.api.utils.ItemUtils;
+import fr.pandonia.hub.api.utils.SkullUtils;
 import fr.pandonia.hub.api.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -55,7 +55,7 @@ public class PlayerJoinListener implements Listener {
         // Hotbar
         Map<Integer, Pair<ItemStack, String>> inventory = new HashMap<>();
         inventory.put(0, new Pair<>(new ItemStack(Material.COMPASS), "§a§lMenu principal"));
-        inventory.put(1, new Pair<>(ItemUtils.getPlayerSkull(player), "§3§lProfil"));
+        inventory.put(1, new Pair<>(SkullUtils.getPlayerSkull(player), "§3§lProfil"));
         inventory.put(4, new Pair<>(new ItemStack(Material.CHEST), "§c§lCosmétiques"));
         inventory.put(7, new Pair<>(new ItemStack(Material.FEATHER), "§a§lJump"));
         inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), "§b§lHub"));

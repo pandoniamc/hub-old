@@ -1,6 +1,6 @@
 package fr.pandonia.hub.api.game;
 
-import fr.pandonia.hub.api.utils.ItemUtils;
+import fr.pandonia.hub.api.utils.SkullUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,7 +22,7 @@ public enum Game {
             "§7et ramène le dans ton camps",
             "§7pour gagner la partie !"
     )),
-    ENMU_PARTY("§3§lEnmuParty", ItemUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JmYWQxYzk3Yjk5ODgxNGE4ZGIyYzFjZWYxNTBhMzNkMzg3NzRiYjI2YzJmMTZlY2E3YjJkNTQ5MGUwNzM5MSJ9fX0="), Collections.singletonList(GameType.PVP), Arrays.asList(
+    ENMU_PARTY("§3§lEnmuParty", SkullUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JmYWQxYzk3Yjk5ODgxNGE4ZGIyYzFjZWYxNTBhMzNkMzg3NzRiYjI2YzJmMTZlY2E3YjJkNTQ5MGUwNzM5MSJ9fX0="), Collections.singletonList(GameType.PVP), Arrays.asList(
             "§7Installez-vous dans le §c§lTrain",
             "§c§ld’Enmu §7et incarne les",
             "§7personnages phare pour",

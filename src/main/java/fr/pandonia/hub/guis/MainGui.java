@@ -1,13 +1,12 @@
 package fr.pandonia.hub.guis;
 
-import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.HubPlugin;
 import fr.pandonia.hub.api.game.Game;
 import fr.pandonia.hub.api.game.GameType;
 import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.HubPlayer;
-import fr.pandonia.hub.api.utils.ItemUtils;
+import fr.pandonia.hub.api.utils.SkullUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,9 +28,7 @@ public class MainGui extends Gui {
 
     @Override
     protected void configure(HubPlayer player) {
-        for (int slot : BACKGROUND_SLOTS) {
-            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(DyeColor.ORANGE.ordinal()).name(ItemUtils.EMPTY_NAME).build());
-        }
+        setBackground(DyeColor.ORANGE.ordinal(), BACKGROUND_SLOTS);
 
         // Side
         setGui(18, getButton("§f§lServeur Customisé", Material.COMMAND_MINECART, Arrays.asList(
@@ -47,7 +44,7 @@ public class MainGui extends Gui {
                 "§7en cliquant ici !"
         )), new ShopGui(), player);
 
-        setGui(27, getButton("§b§lInvitations", ItemUtils.getPlayerSkull(), Collections.singletonList(
+        setGui(27, getButton("§b§lInvitations", SkullUtils.getPlayerSkull(), Collections.singletonList(
                 "§7Vous avez §30 §7invitation(s)"
         )), new InvitationGui(), player);
 
@@ -66,13 +63,13 @@ public class MainGui extends Gui {
         setItem(31, getGameButton(Game.CAPTURE_THE_SHEEP));
 
         // Footer
-        setGui(48, getButton("§2§lMenu Staff", ItemUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5NjAxODNhMzVmZmVlM2Y1NDY2ZTY2YmFhYWNiYWFiMzVkYzJkMTQzODVmMDE3OWVlNmIzYWEzYzhmN2QwYyJ9fX0="), Collections.singletonList(
+        setGui(48, getButton("§2§lMenu Staff", SkullUtils.getPlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5NjAxODNhMzVmZmVlM2Y1NDY2ZTY2YmFhYWNiYWFiMzVkYzJkMTQzODVmMDE3OWVlNmIzYWEzYzhmN2QwYyJ9fX0="), Collections.singletonList(
                 "§7Les meilleurs outils pour le Staff"
         )), new StaffGui(), player, Group.STAFF);
 
         setItem(49, getButton("§a§lSpawn", Material.NETHER_STAR), e -> e.getWhoClicked().teleport((Location) HubPlugin.getConfiguration().get("spawn")));
 
-        setGui(50, getButton("§3§lProfil", ItemUtils.getPlayerSkull(player.asBukkit())), new ProfileGui(), player);
+        setGui(50, getButton("§3§lProfil", SkullUtils.getPlayerSkull(player.asBukkit())), new ProfileGui(), player);
     }
 
     private ItemStack getGameButton(Game game) {

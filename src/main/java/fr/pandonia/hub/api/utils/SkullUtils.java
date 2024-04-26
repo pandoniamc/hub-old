@@ -6,9 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public class ItemUtils {
-
-    public static String EMPTY_NAME = " ";
+public class SkullUtils {
 
     public static ItemStack getPlayerSkull() {
         return new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());

@@ -1,10 +1,8 @@
 package fr.pandonia.hub.guis;
 
-import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.HubPlayer;
-import fr.pandonia.hub.api.utils.ItemUtils;
 import fr.pandonia.hub.guis.staff.StaffListGui;
 import fr.pandonia.hub.guis.staff.StaffServerListGui;
 import org.bukkit.DyeColor;
@@ -22,9 +20,9 @@ public class StaffGui extends Gui {
 
     @Override
     protected void configure(HubPlayer player) {
-        for (int slot : BACKGROUND_SLOTS) {
-            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(DyeColor.MAGENTA.ordinal()).name(ItemUtils.EMPTY_NAME).build());
-        }
+        setBackground(DyeColor.MAGENTA.ordinal(), BACKGROUND_SLOTS);
+
+        setReturn(40);
 
         setSwitch(20,
                 getButton("§9§lMode Modération", Material.ANVIL, Arrays.asList(
@@ -53,7 +51,5 @@ public class StaffGui extends Gui {
                 "§7ou voir les futures",
                 "§7mises à jour."
         )), new StaffServerListGui(), player, Group.STAFF);
-
-        setReturn(40);
     }
 }

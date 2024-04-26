@@ -20,8 +20,12 @@ public class SqlPlayerService implements PlayerService {
 
     @Override
     public HubPlayer loadData(UUID id) {
+        if (cache.containsKey(id)) {
+            return cache.get(id);
+        }
+
         try (Connection connection = connectionProvider.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT g.id FROM players p JOIN `groups` g ON p.group_id = g.id WHERE p.uuid = ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("SELECT g.id, p.start_group_date FROM players p JOIN `groups` g ON p.group_id = g.id WHERE p.uuid = ?")) {
                 statement.setString(1, id.toString());
 
                 try (ResultSet result = statement.executeQuery()) {
@@ -29,7 +33,7 @@ public class SqlPlayerService implements PlayerService {
                         throw new SQLException("Player not found");
                     }
 
-                    HubPlayer player = new HubPlayer(id, Group.valueOf(result.getInt("g.id")));
+                    HubPlayer player = new HubPlayer(id, Group.valueOf(result.getInt("g.id")), result.getDate("p.start_group_date"));
                     cache.put(id, player);
 
                     return player;
@@ -53,7 +57,7 @@ public class SqlPlayerService implements PlayerService {
     @Override
     public List<HubPlayer> getStaffList() {
         try (Connection connection = connectionProvider.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT p.uuid, g.id FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id <= ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("SELECT p.uuid, g.id, p.start_group_date FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id <= ?")) {
                 statement.setInt(1, Group.STAFF.ordinal() + 1);
 
                 try (ResultSet result = statement.executeQuery()) {
@@ -61,7 +65,7 @@ public class SqlPlayerService implements PlayerService {
 
                     while (result.next()) {
                         UUID id = UUID.fromString(result.getString("p.uuid"));
-                        staff.add(new HubPlayer(id, Group.valueOf(result.getInt("g.id"))));
+                        staff.add(new HubPlayer(id, Group.valueOf(result.getInt("g.id")), result.getDate("p.start_group_date")));
                     }
 
                     return staff;

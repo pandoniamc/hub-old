@@ -5,9 +5,8 @@ import fr.pandonia.hub.HubPlugin;
 import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.player.HubPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
-import fr.pandonia.hub.api.utils.ItemUtils;
+import fr.pandonia.hub.api.utils.SkullUtils;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
 
 import java.util.List;
 
@@ -21,9 +20,7 @@ public class StaffListGui extends Gui {
 
     @Override
     protected void configure(HubPlayer player) {
-        for (int slot : BACKGROUND_SLOTS) {
-            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(DyeColor.LIME.ordinal()).name(ItemUtils.EMPTY_NAME).build());
-        }
+        setBackground(DyeColor.LIME.ordinal(), BACKGROUND_SLOTS);
 
         PlayerService playerService = HubPlugin.getPlayerService();
         List<HubPlayer> staffList = playerService.getStaffList();
@@ -34,7 +31,7 @@ public class StaffListGui extends Gui {
             int row = 11 + (i / 5) * 9;
             int column = i % 5;
 
-            setItem(row + column, new ItemBuilder(ItemUtils.getPlayerSkull(staff.asBukkit())).name(String.format("%s %s", staff.getGroup().getColoredName(), staff.getName())).build());
+            setItem(row + column, new ItemBuilder(SkullUtils.getPlayerSkull(staff.asBukkit())).name(String.format("%s %s", staff.getGroup().getColoredName(), staff.getName())).build());
         }
 
         setReturn(40);

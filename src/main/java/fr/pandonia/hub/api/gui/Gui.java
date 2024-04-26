@@ -29,12 +29,9 @@ public abstract class Gui extends FastInv {
 
     protected abstract void configure(HubPlayer player);
 
-    protected void setReturn(int slot) {
-        setItem(slot, getButton("§cRetour en arrière", Material.ARROW), e -> parent.open((Player) e.getWhoClicked()));
-    }
-
     protected void setItem(int slot, ItemStack item, Consumer<InventoryClickEvent> handler, HubPlayer player, Group group) {
-        if (player.is(group)) {
+        if (!group.is(Group.STAFF) || player.is(group)) {
+            // Show the item even if the player doesn't have the required group for non-staff related items
             ItemMeta meta = item.getItemMeta();
 
             List<String> lore = meta.getLore();
@@ -44,8 +41,22 @@ public abstract class Gui extends FastInv {
 
             item.setItemMeta(meta);
 
-            setItem(slot, item, handler);
+            setItem(slot, item, e -> {
+                if (player.is(group)) {
+                    handler.accept(e);
+                }
+            });
         }
+    }
+
+    protected void setBackground(int color, int[] slots) {
+        for (int slot : slots) {
+            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(color).name(" ").build());
+        }
+    }
+
+    protected void setReturn(int slot) {
+        setItem(slot, getButton("§cRetour en arrière", Material.ARROW), e -> parent.open((Player) e.getWhoClicked()));
     }
 
     protected void setSwitch(int slot, ItemStack item, HubPlayer player, Group group) {

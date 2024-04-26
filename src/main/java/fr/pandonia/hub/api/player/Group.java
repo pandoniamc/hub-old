@@ -16,26 +16,36 @@ public enum Group {
     PARTNER("Partenaire", "§d", "PART"),
     FRIEND("Ami", "§8", "AMI"),
     FAMOUS("Famous", "§d", "FAMOUS"),
-    BOOSTER("Booster", "§d", "BOOSTER"),
-    GOD("Dieu", "§d", "DIEU"),
-    LEGEND("Légende", "§b", "LEGENDE"),
-    ELITE("Élite", "§e", "ELITE"),
+    BOOSTER("Booster", "§d", "BOOSTER", 2592000),
+    GOD("Dieu", "§d", "DIEU", 2592000),
+    LEGEND("Légende", "§b", "LEGENDE", 2592000),
+    ELITE("Élite", "§e", "ELITE", 2592000),
     PLAYER("Joueur", "§7");
 
     private final String name;
     private final String prefix;
     private final String color;
     private final String messageFormat;
+    private final int duration;
 
-    Group(String name, String color, String prefix, String messageFormat) {
+    Group(String name, String color, String prefix, String messageFormat, int duration) {
         this.name = name;
         this.prefix = prefix;
         this.color = color;
         this.messageFormat = messageFormat;
+        this.duration = duration;
+    }
+
+    Group(String name, String color, String prefix, String messageFormat) {
+        this(name, color, prefix, messageFormat, -1);
+    }
+
+    Group(String name, String color, String prefix, int duration) {
+        this(name, color, prefix, "§f", duration);
     }
 
     Group(String name, String color, String prefix) {
-        this(name, color, prefix, "§f");
+        this(name, color, prefix, -1);
     }
 
     Group(String name, String color) {
@@ -68,6 +78,10 @@ public enum Group {
 
     public String getMessageFormat() {
         return messageFormat;
+    }
+
+    public Optional<Integer> getDuration() {
+        return duration == -1 ? Optional.empty() : Optional.of(duration);
     }
 
     public boolean is(Group group) {
