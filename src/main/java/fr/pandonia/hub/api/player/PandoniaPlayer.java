@@ -20,6 +20,10 @@ public class PandoniaPlayer {
         this.startGroupDate = startGroupDate;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public Group getGroup() {
         return group;
     }

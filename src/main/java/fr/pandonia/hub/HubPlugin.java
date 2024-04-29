@@ -4,6 +4,10 @@ import fr.mrmicky.fastinv.FastInvManager;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.player.PlayerServiceImpl;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
+import fr.pandonia.hub.api.server.ServerService;
+import fr.pandonia.hub.api.server.ServerServiceImpl;
+import fr.pandonia.hub.api.server.configuration.GameService;
+import fr.pandonia.hub.api.server.configuration.GameServiceImpl;
 import fr.pandonia.hub.api.sql.HikariConnectionProvider;
 import fr.pandonia.hub.api.sql.SqlCredentials;
 import fr.pandonia.hub.api.staff.StaffService;
@@ -24,6 +28,9 @@ public class HubPlugin extends JavaPlugin {
 
     private HikariConnectionProvider sqlConnectionProvider;
 
+    private GameService gameService;
+    private PlayerService playerService;
+    private ServerService serverService;
     private StaffService staffService;
 
     @Override
@@ -39,7 +46,9 @@ public class HubPlugin extends JavaPlugin {
         FastInvManager.register(this);
 
         // Services
-        PlayerService playerService = new PlayerServiceImpl(sqlConnectionProvider);
+        gameService = new GameServiceImpl(getLogger(), sqlConnectionProvider);
+        playerService = new PlayerServiceImpl(sqlConnectionProvider);
+        serverService = new ServerServiceImpl(getLogger(), sqlConnectionProvider);
         staffService = new StaffServiceImpl(getLogger(), sqlConnectionProvider);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
@@ -70,6 +79,18 @@ public class HubPlugin extends JavaPlugin {
 
     public static HubPlugin getInstance() {
         return INSTANCE;
+    }
+
+    public GameService getGameService() {
+        return gameService;
+    }
+
+    public PlayerService getPlayerService() {
+        return playerService;
+    }
+
+    public ServerService getServerService() {
+        return serverService;
     }
 
     public StaffService getStaffService() {
