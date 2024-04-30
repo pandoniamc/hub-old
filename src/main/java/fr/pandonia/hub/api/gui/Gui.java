@@ -6,6 +6,7 @@ import fr.pandonia.hub.api.events.PlayerOpenGuiEvent;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.utils.BukkitUtils;
+import fr.pandonia.hub.api.utils.DateUtils;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public abstract class Gui extends FastInv {
@@ -36,11 +36,11 @@ public abstract class Gui extends FastInv {
     protected void setProfile(int slot) {
         setItem(slot, getItem("§3§lProfil", SkullUtils.getPlayerSkull(player), Arrays.asList(
                 "§8▪ §fGrade: " + player.getGroup().getColoredName(),
-                "§8▪ §fTemps Restant: §3" + player.getEndGroupDate().map(Date::toString).orElse("Aucune Expiration"),
+                "§8▪ §fTemps Restant: §3" + player.getEndGroupDate().map(DateUtils::format).orElse("Aucune Expiration"),
                 "",
-                "§8▪ §fKamas: §e<kamas> ⛁",
-                "§8▪ §fHosts: §6<hosts> ✯",
-                "§8▪ §fPréWL: §c<prewl>"
+                String.format("§8▪ §fKamas: §e%d ⛁", player.getKamas()),
+                String.format("§8▪ §fHosts: §6%d ✯", player.getHosts()),
+                String.format("§8▪ §fPré-Wl: §c%d", player.getPreWhitelist())
         )));
     }
 

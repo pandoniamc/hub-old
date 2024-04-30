@@ -1,7 +1,9 @@
 package fr.pandonia.hub.api.player;
 
+import fr.pandonia.hub.api.utils.DateUtils;
 import org.bukkit.ChatColor;
 
+import java.time.Duration;
 import java.util.Optional;
 
 public enum Group {
@@ -18,10 +20,10 @@ public enum Group {
     PARTNER("Partenaire", ChatColor.LIGHT_PURPLE, "PART"),
     FRIEND("Ami", ChatColor.DARK_GRAY, "AMI"),
     FAMOUS("Famous", ChatColor.LIGHT_PURPLE, "FAMOUS"),
-    BOOSTER("Booster", ChatColor.LIGHT_PURPLE, "BOOSTER", 2592000),
-    GOD("Dieu", ChatColor.LIGHT_PURPLE, "DIEU", 2592000),
-    LEGEND("Légende", ChatColor.AQUA, "LEGENDE", 2592000),
-    ELITE("Élite", ChatColor.YELLOW, "ELITE", 2592000),
+    BOOSTER("Booster", ChatColor.LIGHT_PURPLE, "BOOSTER", DateUtils.MONTH),
+    GOD("Dieu", ChatColor.LIGHT_PURPLE, "DIEU", DateUtils.MONTH),
+    LEGEND("Légende", ChatColor.AQUA, "LEGENDE", DateUtils.MONTH),
+    ELITE("Élite", ChatColor.YELLOW, "ELITE", DateUtils.MONTH),
     PLAYER("Joueur", ChatColor.GRAY);
 
     private static final String CHAT_FORMAT = "%s%s%%s §8▪ %s%%s";
@@ -29,27 +31,27 @@ public enum Group {
     private final String name;
     private final ChatColor color;
     private final String prefix;
-    private String messageFormat = ChatColor.WHITE.toString();
-    private int duration = -1;
+    private final String messageFormat;
+    private final Duration duration;
 
-    Group(String name, ChatColor color, String prefix, String messageFormat) {
+    Group(String name, ChatColor color, String prefix, String messageFormat, Duration duration) {
         this.name = name;
-        this.prefix = prefix;
         this.color = color;
+        this.prefix = prefix;
         this.messageFormat = messageFormat;
-    }
-
-    Group(String name, ChatColor color, String prefix, int duration) {
-        this.name = name;
-        this.color = color;
-        this.prefix = prefix;
         this.duration = duration;
     }
 
+    Group(String name, ChatColor color, String prefix, String messageFormat) {
+        this(name, color, prefix, messageFormat, null);
+    }
+
+    Group(String name, ChatColor color, String prefix, Duration duration) {
+        this(name, color, prefix, ChatColor.WHITE.toString(), duration);
+    }
+
     Group(String name, ChatColor color, String prefix) {
-        this.name = name;
-        this.color = color;
-        this.prefix = prefix;
+        this(name, color, prefix, (Duration) null);
     }
 
     Group(String name, ChatColor color) {
@@ -69,7 +71,7 @@ public enum Group {
     }
 
     public Optional<Integer> getDuration() {
-        return duration == -1 ? Optional.empty() : Optional.of(duration);
+        return Optional.ofNullable(duration).map(d -> (int) d.toDays());
     }
 
     public String getChatFormat() {

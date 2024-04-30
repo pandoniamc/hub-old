@@ -21,7 +21,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public PandoniaPlayer cache(UUID playerId) {
         try (Connection connection = connectionProvider.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT g.id, p.start_group_date FROM players p JOIN `groups` g ON p.group_id = g.id WHERE p.minecraft_id = ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("SELECT g.id, p.start_group_date, p.kamas, p.hosts, p.preWhitelist, p.lootboxs FROM players p JOIN `groups` g ON p.group_id = g.id WHERE p.minecraft_id = ?")) {
                 statement.setString(1, playerId.toString());
 
                 try (ResultSet result = statement.executeQuery()) {
@@ -31,8 +31,12 @@ public class PlayerServiceImpl implements PlayerService {
 
                     Group group = Group.valueOf(result.getInt("g.id"));
                     Date startGroupDate = result.getDate("p.start_group_date");
+                    int kamas = result.getInt("p.kamas");
+                    int hosts = result.getInt("p.hosts");
+                    int preWhitelist = result.getInt("p.preWhitelist");
+                    int lootboxs = result.getInt("p.lootboxs");
 
-                    PandoniaPlayer player = new PandoniaPlayer(playerId, group, startGroupDate);
+                    PandoniaPlayer player = new PandoniaPlayer(playerId, group, startGroupDate, kamas, hosts, preWhitelist, lootboxs);
                     cache.put(playerId, player);
 
                     return player;

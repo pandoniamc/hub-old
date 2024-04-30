@@ -1,10 +1,9 @@
 package fr.pandonia.hub.api.staff;
 
-import fr.pandonia.hub.api.player.PandoniaPlayer;
-
 import java.util.List;
+import java.util.UUID;
 
 public interface StaffService {
 
-    List<PandoniaPlayer> getStaffList(boolean connectedOnly);
+    List<UUID> getStaffList(boolean connectedOnly);
 }

@@ -3,6 +3,7 @@ package fr.pandonia.hub.listeners.player;
 import fr.pandonia.hub.api.events.PlayerOpenGuiEvent;
 import fr.pandonia.hub.api.gui.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.server.Server;
 import fr.pandonia.hub.api.server.ServerService;
 import fr.pandonia.hub.api.server.configuration.GameConfiguration;
@@ -24,21 +25,25 @@ import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlayerOpenGuiListener implements Listener {
 
     private final GameService gameService;
+    private final PlayerService playerService;
     private final ServerService serverService;
     private final SettingsService settingsService;
     private final StaffService staffService;
 
     public PlayerOpenGuiListener(
             GameService gameService,
+            PlayerService playerService,
             ServerService serverService,
             SettingsService settingsService,
             StaffService staffService
     ) {
         this.gameService = gameService;
+        this.playerService = playerService;
         this.serverService = serverService;
         this.settingsService = settingsService;
         this.staffService = staffService;
@@ -89,16 +94,22 @@ public class PlayerOpenGuiListener implements Listener {
                 break;
 
             case STAFF_ALL_LIST:
-                List<PandoniaPlayer> staffList = staffService.getStaffList(false);
-                new StaffListGui(player, false, staffList).open(viewer);
+                openStaffListGui(viewer, player, false);
 
                 break;
 
             case STAFF_CONNECTED_LIST:
-                List<PandoniaPlayer> connectedStaffList = staffService.getStaffList(true);
-                new StaffListGui(player, true, connectedStaffList).open(viewer);
+                openStaffListGui(viewer, player, true);
 
                 break;
         }
+    }
+
+    private void openStaffListGui(Player viewer, PandoniaPlayer player, boolean connectedOnly) {
+        List<PandoniaPlayer> staffList = staffService.getStaffList(connectedOnly).stream()
+                .map(playerService::get)
+                .collect(Collectors.toList());
+
+        new StaffListGui(player, connectedOnly, staffList).open(viewer);
     }
 }
