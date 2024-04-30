@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -29,13 +30,16 @@ public class StaffServiceImpl implements StaffService {
         List<PandoniaPlayer> staff = new ArrayList<>();
 
         try (Connection connection = connectionProvider.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT p.minecraft_id, g.id, p.start_group_date FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id <= ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("SELECT p.minecraft_id, g.id, p.start_group_date FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id <= ?" + (connectedOnly ? " AND p.is_connected = true" : ""))) {
                 statement.setInt(1, Group.STAFF.ordinal() + 1);
 
                 try (ResultSet result = statement.executeQuery()) {
                     while (result.next()) {
-                        UUID id = UUID.fromString(result.getString("p.uuid"));
-                        staff.add(new PandoniaPlayer(id, Group.valueOf(result.getInt("g.id")), result.getDate("p.start_group_date")));
+                        UUID id = UUID.fromString(result.getString("p.minecraft_id"));
+                        Group group = Group.valueOf(result.getInt("g.id"));
+                        Date startGroupDate = result.getDate("p.start_group_date");
+
+                        staff.add(new PandoniaPlayer(id, group, startGroupDate));
                     }
                 }
             }

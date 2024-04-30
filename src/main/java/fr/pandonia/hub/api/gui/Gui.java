@@ -2,8 +2,10 @@ package fr.pandonia.hub.api.gui;
 
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
+import fr.pandonia.hub.api.events.PlayerOpenGuiEvent;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.api.utils.BukkitUtils;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,19 +19,13 @@ import java.util.List;
 
 public abstract class Gui extends FastInv {
 
-    private Gui parent;
+    protected final PandoniaPlayer player;
 
-    public Gui(int rows, String title) {
+    public Gui(int rows, String title, PandoniaPlayer player) {
         super(9 * rows, title);
+
+        this.player = player;
     }
-
-    public void open(PandoniaPlayer player) {
-        configure(player);
-
-        super.open(player.asBukkit());
-    }
-
-    protected abstract void configure(PandoniaPlayer player);
 
     protected void setBackground(int color, int[] slots) {
         for (int slot : slots) {
@@ -37,12 +33,8 @@ public abstract class Gui extends FastInv {
         }
     }
 
-    protected void setReturn(int slot) {
-        setItem(slot, getButton("§cRetour en arrière", Material.ARROW), e -> parent.open((Player) e.getWhoClicked()));
-    }
-
-    protected void setProfile(int slot, PandoniaPlayer player) {
-        setItem(slot, getButton("§3§lProfil", SkullUtils.getPlayerSkull(player.asBukkit()), Arrays.asList(
+    protected void setProfile(int slot) {
+        setItem(slot, getItem("§3§lProfil", SkullUtils.getPlayerSkull(player), Arrays.asList(
                 "§8▪ §fGrade: " + player.getGroup().getColoredName(),
                 "§8▪ §fTemps Restant: §3" + player.getEndGroupDate().map(Date::toString).orElse("Aucune Expiration"),
                 "",
@@ -52,10 +44,8 @@ public abstract class Gui extends FastInv {
         )));
     }
 
-    protected void setGui(int slot, ItemStack item, Gui gui, PandoniaPlayer player, Group requiredGroup) {
+    protected void setGui(int slot, ItemStack item, GuiType type, Group requiredGroup) {
         if (!requiredGroup.is(Group.STAFF) || player.is(requiredGroup)) {
-            gui.parent = this;
-
             ItemMeta meta = item.getItemMeta();
             List<String> lore = meta.getLore();
 
@@ -66,26 +56,25 @@ public abstract class Gui extends FastInv {
 
             if (!lore.isEmpty()) {
                 lore.add("");
+                lore.add("§3§l» §bCliquez pour y accéder");
             }
-
-            lore.add("§3§l» §bCliquez pour y accéder");
 
             meta.setLore(lore);
             item.setItemMeta(meta);
 
             setItem(slot, item, e -> {
                 if (player.is(requiredGroup)) {
-                    gui.open(player);
+                    openGui((Player) e.getWhoClicked(), type);
                 }
             });
         }
     }
 
-    protected void setGui(int slot, ItemStack item, Gui gui, PandoniaPlayer player) {
-        setGui(slot, item, gui, player, Group.PLAYER);
+    protected void setGui(int slot, ItemStack item, GuiType gui) {
+        setGui(slot, item, gui, Group.PLAYER);
     }
 
-    protected ItemStack getButton(String name, ItemStack item, List<String> lore) {
+    protected ItemStack getItem(String name, ItemStack item, List<String> lore) {
         return new ItemBuilder(item)
                 .name(name)
                 .lore(lore)
@@ -93,15 +82,19 @@ public abstract class Gui extends FastInv {
                 .build();
     }
 
-    protected ItemStack getButton(String name, Material material, List<String> lore) {
-        return getButton(name, new ItemStack(material), lore);
+    protected ItemStack getItem(String name, Material material, List<String> lore) {
+        return getItem(name, new ItemStack(material), lore);
     }
 
-    protected ItemStack getButton(String name, Material material) {
-        return getButton(name, material, Collections.emptyList());
+    protected ItemStack getItem(String name, Material material) {
+        return getItem(name, material, Collections.emptyList());
     }
 
-    protected ItemStack getButton(String name, ItemStack item) {
-        return getButton(name, item, Collections.emptyList());
+    protected ItemStack getItem(String name, ItemStack item) {
+        return getItem(name, item, Collections.emptyList());
+    }
+
+    protected void openGui(Player viewer, GuiType type) {
+        BukkitUtils.callEvent(new PlayerOpenGuiEvent(viewer, player, type));
     }
 }

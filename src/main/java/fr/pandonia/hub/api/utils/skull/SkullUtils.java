@@ -1,5 +1,7 @@
 package fr.pandonia.hub.api.utils.skull;
 
+import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.api.utils.BukkitUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,5 +26,9 @@ public class SkullUtils {
 
     public static ItemStack getPlayerSkull(Player owner) {
         return getSkull(owner.getName());
+    }
+
+    public static ItemStack getPlayerSkull(PandoniaPlayer player) {
+        return getPlayerSkull(BukkitUtils.getPlayer(player));
     }
 }

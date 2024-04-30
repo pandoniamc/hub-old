@@ -1,9 +1,5 @@
 package fr.pandonia.hub.api.player;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,17 +30,5 @@ public class PandoniaPlayer {
 
     public Optional<Date> getEndGroupDate() {
         return group.getDuration().map(duration -> new Date(startGroupDate.getTime() + duration * 1000));
-    }
-
-    public Player asBukkit() {
-        return Bukkit.getPlayer(id);
-    }
-
-    public String getName() {
-        return asBukkit().getName();
-    }
-
-    public void teleport(Location location) {
-        asBukkit().teleport(location);
     }
 }

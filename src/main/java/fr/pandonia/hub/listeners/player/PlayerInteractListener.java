@@ -1,12 +1,12 @@
 package fr.pandonia.hub.listeners.player;
 
+import fr.pandonia.hub.api.events.PlayerOpenGuiEvent;
+import fr.pandonia.hub.api.events.PlayerTeleportEvent;
+import fr.pandonia.hub.api.gui.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
-import fr.pandonia.hub.guis.HubGui;
-import fr.pandonia.hub.guis.MainGui;
-import fr.pandonia.hub.guis.ProfileGui;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
+import fr.pandonia.hub.api.utils.BukkitUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -18,11 +18,9 @@ import java.util.UUID;
 
 public class PlayerInteractListener implements Listener {
 
-    private final FileConfiguration configuration;
     private final PlayerService playerService;
 
-    public PlayerInteractListener(FileConfiguration configuration, PlayerService playerService) {
-        this.configuration = configuration;
+    public PlayerInteractListener(PlayerService playerService) {
         this.playerService = playerService;
     }
 
@@ -40,27 +38,24 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        UUID playerId = event.getPlayer().getUniqueId();
+        Player bukkitPlayer = event.getPlayer();
+        UUID playerId = bukkitPlayer.getUniqueId();
+
         PandoniaPlayer player = playerService.get(playerId);
 
         switch (item.getType()) {
             case COMPASS:
-                new MainGui().open(player);
+                BukkitUtils.callEvent(new PlayerOpenGuiEvent(bukkitPlayer, player, GuiType.MAIN));
 
                 break;
 
             case SKULL_ITEM:
-                new ProfileGui().open(player);
+                BukkitUtils.callEvent(new PlayerOpenGuiEvent(bukkitPlayer, player, GuiType.PROFILE));
 
                 break;
 
             case FEATHER:
-                player.teleport((Location) configuration.get("jump"));
-
-                break;
-
-            case BEACON:
-                new HubGui().open(player);
+                BukkitUtils.callEvent(new PlayerTeleportEvent(bukkitPlayer, PlayerTeleportEvent.TeleportLocation.JUMP));
 
                 break;
         }

@@ -10,11 +10,11 @@ public class Pair<A, B> {
         this.second = second;
     }
 
-    public A getFirst() {
+    public A first() {
         return first;
     }
 
-    public B getSecond() {
+    public B second() {
         return second;
     }
 }

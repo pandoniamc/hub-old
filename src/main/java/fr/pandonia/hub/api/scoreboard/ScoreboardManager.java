@@ -55,12 +55,13 @@ public class ScoreboardManager {
         }
 
         private void updateBoard(FastBoard board) {
-            UUID playerId = board.getPlayer().getUniqueId();
+            Player bukkitPlayer = board.getPlayer();
+            UUID playerId = bukkitPlayer.getUniqueId();
             PandoniaPlayer player = playerService.get(playerId);
 
             board.updateLines(
                     "§a§l┃ PROFIL",
-                    String.format(" §7» §fPseudo §8▪ §3%s", player.getName()),
+                    String.format(" §7» §fPseudo §8▪ §3%s", bukkitPlayer.getName()),
                     String.format(" §7» §fGrade §8▪ %s", player.getGroup().getColoredName()),
                     "",
                     "§e§l┃ MONNAIES",

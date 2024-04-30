@@ -64,8 +64,8 @@ public class PlayerJoinListener implements Listener {
 
         inventory.forEach((slot, item) ->
                 player.getInventory().setItem(slot,
-                        new ItemBuilder(item.getFirst())
-                                .name(String.format(HOTBAR_ITEM_NAME_FORMAT, item.getSecond()))
+                        new ItemBuilder(item.first())
+                                .name(String.format(HOTBAR_ITEM_NAME_FORMAT, item.second()))
                                 .build()
                 )
         );

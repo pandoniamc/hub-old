@@ -29,7 +29,10 @@ public class PlayerServiceImpl implements PlayerService {
                         throw new SQLException("Player not found");
                     }
 
-                    PandoniaPlayer player = new PandoniaPlayer(playerId, Group.valueOf(result.getInt("g.id")), result.getDate("p.start_group_date"));
+                    Group group = Group.valueOf(result.getInt("g.id"));
+                    Date startGroupDate = result.getDate("p.start_group_date");
+
+                    PandoniaPlayer player = new PandoniaPlayer(playerId, group, startGroupDate);
                     cache.put(playerId, player);
 
                     return player;

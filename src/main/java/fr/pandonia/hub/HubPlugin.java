@@ -26,34 +26,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class HubPlugin extends JavaPlugin {
 
-    private static HubPlugin INSTANCE;
-
     private HikariConnectionProvider sqlConnectionProvider;
-
-    private GameService gameService;
-    private PlayerService playerService;
-    private ServerService serverService;
-    private SettingsService settingsService;
-    private StaffService staffService;
 
     @Override
     public void onEnable() {
-        INSTANCE = this;
-
         saveDefaultConfig();
 
         SqlCredentials sqlCredentials = SqlCredentials.fromConfiguration(getConfig());
         sqlConnectionProvider = new HikariConnectionProvider(sqlCredentials);
 
-        // Gui
         FastInvManager.register(this);
 
-        // Services
-        gameService = new GameServiceImpl(getLogger(), sqlConnectionProvider);
-        playerService = new PlayerServiceImpl(sqlConnectionProvider);
-        serverService = new ServerServiceImpl(getLogger(), sqlConnectionProvider);
-        settingsService = new SettingsServiceImpl(sqlConnectionProvider);
-        staffService = new StaffServiceImpl(getLogger(), sqlConnectionProvider);
+        GameService gameService = new GameServiceImpl(getLogger(), sqlConnectionProvider);
+        PlayerService playerService = new PlayerServiceImpl(sqlConnectionProvider);
+        ServerService serverService = new ServerServiceImpl(getLogger(), sqlConnectionProvider);
+        SettingsService settingsService = new SettingsServiceImpl(sqlConnectionProvider);
+        StaffService staffService = new StaffServiceImpl(getLogger(), sqlConnectionProvider);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
 
@@ -63,9 +51,12 @@ public class HubPlugin extends JavaPlugin {
                 new InventoryClickListener(),
                 new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
-                new PlayerInteractListener(getConfig(), playerService),
+                new PlayerInteractListener(playerService),
                 new PlayerJoinListener(this, playerService, scoreboardManager),
+                new PlayerOpenGuiListener(gameService, serverService, settingsService, staffService),
                 new PlayerQuitListener(playerService, scoreboardManager),
+                new PlayerTeleportListener(getConfig()),
+                new PlayerUpdateSettingsListener(settingsService),
                 new WeatherChangeListener()
         );
 
@@ -79,30 +70,6 @@ public class HubPlugin extends JavaPlugin {
         }
 
         getLogger().info("Plugin disabled");
-    }
-
-    public static HubPlugin getInstance() {
-        return INSTANCE;
-    }
-
-    public GameService getGameService() {
-        return gameService;
-    }
-
-    public PlayerService getPlayerService() {
-        return playerService;
-    }
-
-    public ServerService getServerService() {
-        return serverService;
-    }
-
-    public SettingsService getSettingsService() {
-        return settingsService;
-    }
-
-    public StaffService getStaffService() {
-        return staffService;
     }
 
     private void registerListeners(Listener... listeners) {
