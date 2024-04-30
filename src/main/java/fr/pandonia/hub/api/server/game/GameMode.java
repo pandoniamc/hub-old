@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.server.configuration;
+package fr.pandonia.hub.api.server.game;
 
 public enum GameMode {
 

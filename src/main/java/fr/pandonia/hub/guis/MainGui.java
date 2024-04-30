@@ -1,5 +1,6 @@
 package fr.pandonia.hub.guis;
 
+import fr.pandonia.hub.api.configuration.TeleportLocation;
 import fr.pandonia.hub.api.gui.GuiType;
 import fr.pandonia.hub.api.events.PlayerTeleportEvent;
 import fr.pandonia.hub.api.game.Game;
@@ -64,7 +65,7 @@ public class MainGui extends Gui {
                 "§7Les meilleurs outils pour le Staff"
         )), GuiType.STAFF, Group.STAFF);
 
-        setItem(49, getItem("§a§lSpawn", Material.NETHER_STAR), e -> BukkitUtils.callEvent(new PlayerTeleportEvent((Player) e.getWhoClicked(), PlayerTeleportEvent.TeleportLocation.SPAWN)));
+        setItem(49, getItem("§a§lSpawn", Material.NETHER_STAR), e -> BukkitUtils.callEvent(new PlayerTeleportEvent((Player) e.getWhoClicked(), TeleportLocation.SPAWN)));
 
         setGui(50, getItem("§3§lProfil", SkullUtils.getPlayerSkull(player)), GuiType.PROFILE);
     }

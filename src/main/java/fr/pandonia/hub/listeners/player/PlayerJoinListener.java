@@ -6,6 +6,7 @@ import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import fr.pandonia.hub.api.utils.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class PlayerJoinListener implements Listener {
             "§8» §fEn vous souhaitant une §abonne expérience de jeu §f!"
     };
 
-    private static final String HOTBAR_ITEM_NAME_FORMAT = "%s§r §8▪ §7Clic-Droit";
+    private static final String HOTBAR_ITEM_NAME_FORMAT = "%s §8▪ §7Clic-Droit";
 
     private final Plugin plugin;
     private final PlayerService playerService;
@@ -55,22 +56,24 @@ public class PlayerJoinListener implements Listener {
         player.sendMessage(JOIN_MESSAGE);
 
         // Hotbar
-        Map<Integer, Pair<ItemStack, String>> inventory = new HashMap<>();
-        inventory.put(0, new Pair<>(new ItemStack(Material.COMPASS), "§a§lMenu principal"));
-        inventory.put(1, new Pair<>(SkullUtils.getPlayerSkull(player), "§3§lProfil"));
-        inventory.put(4, new Pair<>(new ItemStack(Material.CHEST), "§c§lCosmétiques"));
-        inventory.put(7, new Pair<>(new ItemStack(Material.FEATHER), "§a§lJump"));
-        inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), "§b§lHub"));
+        Map<Integer, Pair<ItemStack, Pair<String, ChatColor>>> inventory = new HashMap<>();
+        inventory.put(0, new Pair<>(new ItemStack(Material.COMPASS), new Pair<>("Menu principal", ChatColor.GREEN)));
+        inventory.put(1, new Pair<>(SkullUtils.getPlayerSkull(player), new Pair<>("Profil", ChatColor.DARK_AQUA)));
+        inventory.put(4, new Pair<>(new ItemStack(Material.CHEST), new Pair<>("Cosmétiques", ChatColor.RED)));
+        inventory.put(7, new Pair<>(new ItemStack(Material.FEATHER), new Pair<>("Jump", ChatColor.GREEN)));
+        inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), new Pair<>("Serveurs", ChatColor.AQUA)));
 
-        inventory.forEach((slot, item) ->
+        inventory.forEach((slot, item) -> {
+                String name = "" + item.second().second() + ChatColor.BOLD + item.second().first() + ChatColor.RESET;
                 player.getInventory().setItem(slot,
-                        new ItemBuilder(item.first())
-                                .name(String.format(HOTBAR_ITEM_NAME_FORMAT, item.second()))
-                                .build()
-                )
+                            new ItemBuilder(item.first())
+                                    .name(String.format(HOTBAR_ITEM_NAME_FORMAT, name))
+                                    .build()
+                    );
+                }
         );
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> playerService.cache(playerId));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> playerService.addPlayerInCache(playerId));
 
         scoreboardManager.addPlayer(player);
 

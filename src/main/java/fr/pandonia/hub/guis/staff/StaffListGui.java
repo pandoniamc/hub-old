@@ -25,7 +25,7 @@ public class StaffListGui extends ChildGui {
             int row = 11 + (i / 5) * 9;
             int column = i % 5;
 
-            setItem(row + column, new ItemBuilder(SkullUtils.getPlayerSkull(player)).name(String.format("%s %s", staff.getGroup().getColoredName(), BukkitUtils.getPlayer(player).getName())).build());
+            setItem(row + column, new ItemBuilder(SkullUtils.getPlayerSkull(player)).name(String.format("%s %s", staff.getGroup().getDisplayName(), BukkitUtils.getPlayer(player).getName())).build());
         }
 
         setReturn(40);

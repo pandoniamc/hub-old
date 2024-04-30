@@ -35,7 +35,7 @@ public abstract class Gui extends FastInv {
 
     protected void setProfile(int slot) {
         setItem(slot, getItem("§3§lProfil", SkullUtils.getPlayerSkull(player), Arrays.asList(
-                "§8▪ §fGrade: " + player.getGroup().getColoredName(),
+                "§8▪ §fGrade: " + player.getGroup().getDisplayName(),
                 "§8▪ §fTemps Restant: §3" + player.getEndGroupDate().map(DateUtils::format).orElse("Aucune Expiration"),
                 "",
                 String.format("§8▪ §fKamas: §e%d ⛁", player.getKamas()),

@@ -23,6 +23,6 @@ public class PlayerQuitListener implements Listener {
         UUID playerId = event.getPlayer().getUniqueId();
 
         scoreboardManager.removePlayer(playerId);
-        playerService.remove(playerId);
+        playerService.removePlayerFromCache(playerId);
     }
 }

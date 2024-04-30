@@ -1,7 +1,5 @@
 package fr.pandonia.hub.api.sql;
 
-import org.bukkit.configuration.file.FileConfiguration;
-
 public class SqlCredentials {
 
     private static final String JDBC_URL_FORMAT = "jdbc:mysql://%s:%d/%s";
@@ -18,16 +16,6 @@ public class SqlCredentials {
         this.username = username;
         this.password = password;
         this.database = database;
-    }
-
-    public static SqlCredentials fromConfiguration(FileConfiguration configuration) {
-        String host = configuration.getString("database.host");
-        int port = configuration.getInt("database.port");
-        String username = configuration.getString("database.username");
-        String password = configuration.getString("database.password");
-        String database = configuration.getString("database.database");
-
-        return new SqlCredentials(host, port, username, password, database);
     }
 
     public String getUsername() {

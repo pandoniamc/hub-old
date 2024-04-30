@@ -1,5 +1,6 @@
 package fr.pandonia.hub.listeners.player;
 
+import fr.pandonia.hub.api.configuration.TeleportLocation;
 import fr.pandonia.hub.api.events.PlayerOpenGuiEvent;
 import fr.pandonia.hub.api.events.PlayerTeleportEvent;
 import fr.pandonia.hub.api.gui.GuiType;
@@ -40,8 +41,7 @@ public class PlayerInteractListener implements Listener {
 
         Player bukkitPlayer = event.getPlayer();
         UUID playerId = bukkitPlayer.getUniqueId();
-
-        PandoniaPlayer player = playerService.get(playerId);
+        PandoniaPlayer player = playerService.getPlayer(playerId);
 
         switch (item.getType()) {
             case COMPASS:
@@ -55,7 +55,7 @@ public class PlayerInteractListener implements Listener {
                 break;
 
             case FEATHER:
-                BukkitUtils.callEvent(new PlayerTeleportEvent(bukkitPlayer, PlayerTeleportEvent.TeleportLocation.JUMP));
+                BukkitUtils.callEvent(new PlayerTeleportEvent(bukkitPlayer, TeleportLocation.JUMP));
 
                 break;
         }

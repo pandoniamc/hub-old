@@ -1,5 +1,6 @@
 package fr.pandonia.hub.api.events;
 
+import fr.pandonia.hub.api.configuration.TeleportLocation;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
@@ -28,8 +29,4 @@ public class PlayerTeleportEvent extends PlayerEvent {
         return location;
     }
 
-    public enum TeleportLocation {
-        SPAWN,
-        JUMP,
-    }
 }

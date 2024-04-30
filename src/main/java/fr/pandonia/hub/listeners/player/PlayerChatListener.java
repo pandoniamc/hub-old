@@ -19,7 +19,7 @@ public class PlayerChatListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         UUID playerId = event.getPlayer().getUniqueId();
-        PandoniaPlayer player = playerService.get(playerId);
+        PandoniaPlayer player = playerService.getPlayer(playerId);
 
         event.setFormat(player.getGroup().getChatFormat());
     }

@@ -1,25 +1,25 @@
 package fr.pandonia.hub.listeners.player;
 
+import fr.pandonia.hub.api.configuration.Configuration;
+import fr.pandonia.hub.api.configuration.TeleportLocation;
 import fr.pandonia.hub.api.events.PlayerTeleportEvent;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class PlayerTeleportListener implements Listener {
 
-    private final FileConfiguration configuration;
+    private final Configuration configuration;
 
-    public PlayerTeleportListener(FileConfiguration configuration) {
+    public PlayerTeleportListener(Configuration configuration) {
         this.configuration = configuration;
     }
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
-        PlayerTeleportEvent.TeleportLocation location = event.getLocation();
+        TeleportLocation location = event.getLocation();
 
-        player.teleport((Location) configuration.get(String.format("locations.%s", location.name().toLowerCase())));
+        player.teleport(configuration.getLocation(location));
     }
 }

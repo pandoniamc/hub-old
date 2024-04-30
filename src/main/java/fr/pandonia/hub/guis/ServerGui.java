@@ -5,8 +5,8 @@ import fr.pandonia.hub.api.gui.GuiType;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.server.Server;
-import fr.pandonia.hub.api.server.configuration.GameConfiguration;
-import fr.pandonia.hub.api.server.configuration.GameScenario;
+import fr.pandonia.hub.api.server.game.GameConfiguration;
+import fr.pandonia.hub.api.server.game.GameScenario;
 import fr.pandonia.hub.api.utils.BukkitUtils;
 import fr.pandonia.hub.api.utils.Pair;
 import fr.pandonia.hub.api.utils.skull.SkullTypes;
@@ -63,11 +63,11 @@ public class ServerGui extends ChildGui {
         List<GameScenario> scenarios = servers.get(serverIndex).second().second();
 
         List<String> lore = new ArrayList<>(Arrays.asList(
-                "§8Type de jeu " + configuration.getType().getColoredName(),
+                "§8Type de jeu " + configuration.getType().getDisplayName(),
                 "",
                 "§fHôte: §e§l" + BukkitUtils.getPlayer(owner).getName(),
-                "§fNom: " + server.getColoredName(),
-                "§fPhase: " + server.getState().getColoredName(),
+                "§fNom: " + server.getDisplayName(),
+                "§fPhase: " + server.getState().getDisplayName(),
                 String.format("§fJoueurs: §b%d§7/§9%d", server.getPlayerCount(), server.getMaxPlayers()),
                 "",
                 "§8Contenu",

@@ -34,7 +34,7 @@ public class Server {
         return ownerId;
     }
 
-    public String getColoredName() {
+    public String getDisplayName() {
         return nameColor + name;
     }
 

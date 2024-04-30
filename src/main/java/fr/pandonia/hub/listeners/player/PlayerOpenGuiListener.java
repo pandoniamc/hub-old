@@ -6,9 +6,9 @@ import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.server.Server;
 import fr.pandonia.hub.api.server.ServerService;
-import fr.pandonia.hub.api.server.configuration.GameConfiguration;
-import fr.pandonia.hub.api.server.configuration.GameScenario;
-import fr.pandonia.hub.api.server.configuration.GameService;
+import fr.pandonia.hub.api.server.game.GameConfiguration;
+import fr.pandonia.hub.api.server.game.GameScenario;
+import fr.pandonia.hub.api.server.game.GameService;
 import fr.pandonia.hub.api.settings.Settings;
 import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.staff.StaffService;
@@ -107,7 +107,7 @@ public class PlayerOpenGuiListener implements Listener {
 
     private void openStaffListGui(Player viewer, PandoniaPlayer player, boolean connectedOnly) {
         List<PandoniaPlayer> staffList = staffService.getStaffList(connectedOnly).stream()
-                .map(playerService::get)
+                .map(playerService::getPlayer)
                 .collect(Collectors.toList());
 
         new StaffListGui(player, connectedOnly, staffList).open(viewer);

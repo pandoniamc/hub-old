@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.server.configuration;
+package fr.pandonia.hub.api.server.game;
 
 import org.bukkit.ChatColor;
 
@@ -30,7 +30,7 @@ public enum GameType {
         this.description = description;
     }
 
-    public String getColoredName() {
+    public String getDisplayName() {
         return color + name;
     }
 

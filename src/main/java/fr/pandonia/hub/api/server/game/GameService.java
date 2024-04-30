@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.server.configuration;
+package fr.pandonia.hub.api.server.game;
 
 import fr.pandonia.hub.api.sql.SqlConnectionProvider;
 
@@ -12,17 +12,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GameServiceImpl implements GameService {
+public class GameService {
 
     private final Logger logger;
     private final SqlConnectionProvider connectionProvider;
 
-    public GameServiceImpl(Logger logger, SqlConnectionProvider connectionProvider) {
+    public GameService(Logger logger, SqlConnectionProvider connectionProvider) {
         this.logger = logger;
         this.connectionProvider = connectionProvider;
     }
 
-    @Override
     public GameConfiguration getConfiguration(int configurationId) {
         try (Connection connection = connectionProvider.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
@@ -55,11 +54,11 @@ public class GameServiceImpl implements GameService {
         }
     }
 
-    @Override
     public List<GameScenario> getScenarios(int configurationId) {
         try (Connection connection = connectionProvider.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "SELECT name FROM game_configuration_game_scenarios gcgs " +
+                    "SELECT gs.name " +
+                            "FROM game_configuration_game_scenarios gcgs " +
                             "JOIN game_scenarios gs on gcgs.scenario_id = gs.id " +
                             "WHERE game_configuration_id = ?"
             )) {
@@ -69,7 +68,7 @@ public class GameServiceImpl implements GameService {
                     List<GameScenario> scenarios = new ArrayList<>();
 
                     while (result.next()) {
-                        scenarios.add(GameScenario.valueOf(result.getString("name")));
+                        scenarios.add(GameScenario.valueOf(result.getString("gs.name")));
                     }
 
                     return scenarios;

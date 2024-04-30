@@ -22,7 +22,7 @@ public enum ServerState {
         this.skullType = skullType;
     }
 
-    public String getColoredName() {
+    public String getDisplayName() {
         return color + name;
     }
 
