@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class ServerGui extends Gui {
@@ -40,14 +39,7 @@ public class ServerGui extends Gui {
 
         setReturn(40);
 
-        setItem(2, getButton("§3§lProfil", SkullUtils.getPlayerSkull(player.asBukkit()), Arrays.asList(
-                "§8▪ §fGrade: " + player.getGroup().getColoredName(),
-                "§8▪ §fTemps Restant: §3" + player.getEndGroupDate().map(Date::toString).orElse("Aucune Expiration"),
-                "",
-                "§8▪ §fKamas: §e<kamas> ⛁",
-                "§8▪ §fHosts: §6<hosts> ✯",
-                "§8▪ §fPréWL: §c<prewl>"
-        )));
+        setProfile(2, player);
 
         setItem(4, getButton("§e§lExplications", Material.PAPER, Arrays.asList(
                 "§9▪ §7Serveur customisé:",

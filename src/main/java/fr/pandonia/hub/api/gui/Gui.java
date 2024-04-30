@@ -4,12 +4,15 @@ import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.Group;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public abstract class Gui extends FastInv {
@@ -22,6 +25,7 @@ public abstract class Gui extends FastInv {
 
     public void open(PandoniaPlayer player) {
         configure(player);
+
         super.open(player.asBukkit());
     }
 
@@ -35,6 +39,17 @@ public abstract class Gui extends FastInv {
 
     protected void setReturn(int slot) {
         setItem(slot, getButton("§cRetour en arrière", Material.ARROW), e -> parent.open((Player) e.getWhoClicked()));
+    }
+
+    protected void setProfile(int slot, PandoniaPlayer player) {
+        setItem(slot, getButton("§3§lProfil", SkullUtils.getPlayerSkull(player.asBukkit()), Arrays.asList(
+                "§8▪ §fGrade: " + player.getGroup().getColoredName(),
+                "§8▪ §fTemps Restant: §3" + player.getEndGroupDate().map(Date::toString).orElse("Aucune Expiration"),
+                "",
+                "§8▪ §fKamas: §e<kamas> ⛁",
+                "§8▪ §fHosts: §6<hosts> ✯",
+                "§8▪ §fPréWL: §c<prewl>"
+        )));
     }
 
     protected void setGui(int slot, ItemStack item, Gui gui, PandoniaPlayer player, Group requiredGroup) {

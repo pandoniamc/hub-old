@@ -8,6 +8,8 @@ import fr.pandonia.hub.api.server.ServerService;
 import fr.pandonia.hub.api.server.ServerServiceImpl;
 import fr.pandonia.hub.api.server.configuration.GameService;
 import fr.pandonia.hub.api.server.configuration.GameServiceImpl;
+import fr.pandonia.hub.api.settings.SettingsService;
+import fr.pandonia.hub.api.settings.SettingsServiceImpl;
 import fr.pandonia.hub.api.sql.HikariConnectionProvider;
 import fr.pandonia.hub.api.sql.SqlCredentials;
 import fr.pandonia.hub.api.staff.StaffService;
@@ -31,6 +33,7 @@ public class HubPlugin extends JavaPlugin {
     private GameService gameService;
     private PlayerService playerService;
     private ServerService serverService;
+    private SettingsService settingsService;
     private StaffService staffService;
 
     @Override
@@ -49,6 +52,7 @@ public class HubPlugin extends JavaPlugin {
         gameService = new GameServiceImpl(getLogger(), sqlConnectionProvider);
         playerService = new PlayerServiceImpl(sqlConnectionProvider);
         serverService = new ServerServiceImpl(getLogger(), sqlConnectionProvider);
+        settingsService = new SettingsServiceImpl(sqlConnectionProvider);
         staffService = new StaffServiceImpl(getLogger(), sqlConnectionProvider);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
@@ -91,6 +95,10 @@ public class HubPlugin extends JavaPlugin {
 
     public ServerService getServerService() {
         return serverService;
+    }
+
+    public SettingsService getSettingsService() {
+        return settingsService;
     }
 
     public StaffService getStaffService() {
