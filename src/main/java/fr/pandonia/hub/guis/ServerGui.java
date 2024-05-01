@@ -75,7 +75,7 @@ public class ServerGui extends ChildGui {
                 "§fBordure: §a" + configuration.getBorderSize(),
                 "§fTemps:",
                 "    §8▪ §7PvP: §e" + configuration.getPvpTime(),
-                "    §8▪ §Bordure: §e" + configuration.getBorderReductionTime(),
+                "    §8▪ §7Bordure: §e" + configuration.getBorderReductionTime(),
                 "§fNether: " + (configuration.isNetherEnabled() ? "§a✔" : "§c✖"),
                 "",
                 "§8Scénario(s)"

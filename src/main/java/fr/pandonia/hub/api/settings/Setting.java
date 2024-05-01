@@ -2,7 +2,7 @@ package fr.pandonia.hub.api.settings;
 
 import fr.pandonia.hub.api.settings.type.SettingType;
 
-public class Setting<T extends Enum<T> & SettingType> {
+public class Setting<T extends Enum<T> & SettingType<?>> {
 
     private T value;
 

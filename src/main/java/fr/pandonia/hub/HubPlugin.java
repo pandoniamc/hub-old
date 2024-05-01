@@ -2,6 +2,7 @@ package fr.pandonia.hub;
 
 import fr.mrmicky.fastinv.FastInvManager;
 import fr.pandonia.hub.api.configuration.Configuration;
+import fr.pandonia.hub.api.friend.FriendService;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.server.ServerService;
@@ -9,6 +10,7 @@ import fr.pandonia.hub.api.server.game.GameService;
 import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.sql.HikariConnectionProvider;
 import fr.pandonia.hub.api.staff.StaffService;
+import fr.pandonia.hub.api.visibility.VisibilityManager;
 import fr.pandonia.hub.listeners.entity.EntityDamageListener;
 import fr.pandonia.hub.listeners.entity.FoodLevelChangeListener;
 import fr.pandonia.hub.listeners.inventory.InventoryClickListener;
@@ -33,6 +35,7 @@ public class HubPlugin extends JavaPlugin {
 
         FastInvManager.register(this);
 
+        FriendService friendService = new FriendService(getLogger(), sqlConnectionProvider);
         GameService gameService = new GameService(getLogger(), sqlConnectionProvider);
         PlayerService playerService = new PlayerService(sqlConnectionProvider);
         ServerService serverService = new ServerService(getLogger(), sqlConnectionProvider);
@@ -40,6 +43,7 @@ public class HubPlugin extends JavaPlugin {
         StaffService staffService = new StaffService(getLogger(), sqlConnectionProvider);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
+        VisibilityManager visibilityManager = new VisibilityManager(friendService, settingsService);
 
         registerListeners(
                 new EntityDamageListener(),
@@ -48,11 +52,11 @@ public class HubPlugin extends JavaPlugin {
                 new PlayerChatListener(playerService),
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(playerService),
-                new PlayerJoinListener(this, playerService, scoreboardManager),
+                new PlayerJoinListener(playerService, settingsService, scoreboardManager, visibilityManager),
                 new PlayerOpenGuiListener(gameService, playerService, serverService, settingsService, staffService),
-                new PlayerQuitListener(playerService, scoreboardManager),
+                new PlayerQuitListener(playerService, settingsService, scoreboardManager),
                 new PlayerTeleportListener(configuration),
-                new PlayerUpdateSettingsListener(settingsService),
+                new PlayerUpdateSettingsListener(settingsService, visibilityManager),
                 new WeatherChangeListener()
         );
 

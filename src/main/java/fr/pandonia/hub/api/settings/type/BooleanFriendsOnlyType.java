@@ -2,7 +2,7 @@ package fr.pandonia.hub.api.settings.type;
 
 import org.bukkit.ChatColor;
 
-public enum BooleanFriendsOnlyType implements SettingType {
+public enum BooleanFriendsOnlyType implements SettingType<String> {
 
     ENABLED("Activé", ChatColor.GREEN),
     FRIENDS_ONLY("Amis uniquement", ChatColor.LIGHT_PURPLE),
@@ -24,5 +24,10 @@ public enum BooleanFriendsOnlyType implements SettingType {
     @Override
     public String getDisplayName() {
         return color + name;
+    }
+
+    @Override
+    public String getPersistedValue() {
+        return name();
     }
 }

@@ -41,7 +41,7 @@ public class PandoniaPlayer {
         return group.getDuration().map(duration -> {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startGroupDate);
-            calendar.add(Calendar.DAY_OF_YEAR, duration);
+            calendar.add(Calendar.SECOND, Math.toIntExact(duration.getSeconds()));
 
             return calendar.getTime();
         });

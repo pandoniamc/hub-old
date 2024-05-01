@@ -39,14 +39,14 @@ public class SettingsGui extends ChildGui {
 
     @Override
     protected void onClose(InventoryCloseEvent event) {
-        BukkitUtils.callEvent(new PlayerUpdateSettingsEvent((Player) event.getPlayer(), settings));
+        BukkitUtils.callEvent(new PlayerUpdateSettingsEvent((Player) event.getPlayer()));
     }
 
-    private <T extends Enum<T> & SettingType> void setSetting(int slot, String name, Material material, Setting<T> setting) {
+    private <T extends Enum<T> & SettingType<?>> void setSetting(int slot, String name, Material material, Setting<T> setting) {
         T value = setting.get();
         List<String> lore = new ArrayList<>();
 
-        for (SettingType type : setting.getValues()) {
+        for (SettingType<?> type : setting.getValues()) {
             lore.add(value == type ? "§8▪ " + type.getDisplayName() : "§7▪ " + type.getName());
         }
 

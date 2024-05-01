@@ -20,10 +20,10 @@ public enum Group {
     PARTNER("Partenaire", ChatColor.LIGHT_PURPLE, "PART"),
     FRIEND("Ami", ChatColor.DARK_GRAY, "AMI"),
     FAMOUS("Famous", ChatColor.LIGHT_PURPLE, "FAMOUS"),
-    BOOSTER("Booster", ChatColor.LIGHT_PURPLE, "BOOSTER", DateUtils.MONTH),
-    GOD("Dieu", ChatColor.LIGHT_PURPLE, "DIEU", DateUtils.MONTH),
-    LEGEND("Légende", ChatColor.AQUA, "LEGENDE", DateUtils.MONTH),
-    ELITE("Élite", ChatColor.YELLOW, "ELITE", DateUtils.MONTH),
+    BOOSTER("Booster", ChatColor.LIGHT_PURPLE, "BOOSTER", DateUtils.MONTH_DURATION),
+    GOD("Dieu", ChatColor.LIGHT_PURPLE, "DIEU", DateUtils.MONTH_DURATION),
+    LEGEND("Légende", ChatColor.AQUA, "LEGENDE", DateUtils.MONTH_DURATION),
+    ELITE("Élite", ChatColor.YELLOW, "ELITE", DateUtils.MONTH_DURATION),
     PLAYER("Joueur", ChatColor.GRAY);
 
     private static final String CHAT_FORMAT = "%s%s%%s §8▪ %s%%s";
@@ -66,8 +66,8 @@ public enum Group {
         return color + name;
     }
 
-    public Optional<Integer> getDuration() {
-        return Optional.ofNullable(duration).map(d -> (int) d.toDays());
+    public Optional<Duration> getDuration() {
+        return Optional.ofNullable(duration);
     }
 
     public String getChatFormat() {

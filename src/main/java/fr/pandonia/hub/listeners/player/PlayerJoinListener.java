@@ -3,8 +3,10 @@ package fr.pandonia.hub.listeners.player;
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
+import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import fr.pandonia.hub.api.utils.Pair;
+import fr.pandonia.hub.api.visibility.VisibilityManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -14,7 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +35,15 @@ public class PlayerJoinListener implements Listener {
 
     private static final String HOTBAR_ITEM_NAME_FORMAT = "%s §8▪ §7Clic-Droit";
 
-    private final Plugin plugin;
     private final PlayerService playerService;
+    private final SettingsService settingsService;
     private final ScoreboardManager scoreboardManager;
+    private final VisibilityManager visibilityManager;
 
-    public PlayerJoinListener(Plugin plugin, PlayerService playerService, ScoreboardManager scoreboardManager) {
-        this.plugin = plugin;
+    public PlayerJoinListener(PlayerService playerService, SettingsService settingsService, ScoreboardManager scoreboardManager, VisibilityManager visibilityManager) {
         this.playerService = playerService;
+        this.settingsService = settingsService;
+        this.visibilityManager = visibilityManager;
         this.scoreboardManager = scoreboardManager;
     }
 
@@ -61,21 +64,26 @@ public class PlayerJoinListener implements Listener {
         inventory.put(1, new Pair<>(SkullUtils.getPlayerSkull(player), new Pair<>("Profil", ChatColor.DARK_AQUA)));
         inventory.put(4, new Pair<>(new ItemStack(Material.CHEST), new Pair<>("Cosmétiques", ChatColor.RED)));
         inventory.put(7, new Pair<>(new ItemStack(Material.FEATHER), new Pair<>("Jump", ChatColor.GREEN)));
-        inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), new Pair<>("Serveurs", ChatColor.AQUA)));
+        inventory.put(8, new Pair<>(new ItemStack(Material.BEACON), new Pair<>("Hub", ChatColor.AQUA)));
 
         inventory.forEach((slot, item) -> {
-                String name = "" + item.second().second() + ChatColor.BOLD + item.second().first() + ChatColor.RESET;
-                player.getInventory().setItem(slot,
-                            new ItemBuilder(item.first())
-                                    .name(String.format(HOTBAR_ITEM_NAME_FORMAT, name))
-                                    .build()
-                    );
-                }
-        );
+            String name = "" + item.second().second() + ChatColor.BOLD + item.second().first() + ChatColor.RESET;
+            player.getInventory().setItem(slot,
+                    new ItemBuilder(item.first())
+                            .name(String.format(HOTBAR_ITEM_NAME_FORMAT, name))
+                            .build()
+            );
+        });
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> playerService.addPlayerInCache(playerId));
+        playerService.addPlayerInCache(playerId);
+        settingsService.addSettingsInCache(playerId);
 
         scoreboardManager.addPlayer(player);
+
+        Bukkit.getOnlinePlayers().forEach(target -> {
+            visibilityManager.hidePlayerIfNeeded(player, target);
+            visibilityManager.hidePlayerIfNeeded(target, player);
+        });
 
         event.setJoinMessage(null);
     }

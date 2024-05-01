@@ -2,7 +2,7 @@ package fr.pandonia.hub.api.settings.type;
 
 import org.bukkit.ChatColor;
 
-public enum BooleanType implements SettingType {
+public enum BooleanType implements SettingType<Boolean> {
 
     ENABLED("Activé", ChatColor.GREEN),
     DISABLED("Désactive", ChatColor.RED);
@@ -27,5 +27,10 @@ public enum BooleanType implements SettingType {
     @Override
     public String getDisplayName() {
         return color + name;
+    }
+
+    @Override
+    public Boolean getPersistedValue() {
+        return this == ENABLED;
     }
 }

@@ -5,9 +5,9 @@ import org.bukkit.ChatColor;
 
 public enum ServerState {
 
-    CLOSED("Préparation", ChatColor.DARK_BLUE, "a"),
+    CLOSED("Préparation", ChatColor.DARK_BLUE, SkullTypes.CLOSED_SERVER),
     WAITING_FOR_PLAYERS("Attente de joueurs", ChatColor.AQUA, SkullTypes.OPEN_SERVER),
-    STARTING("Démarrage", ChatColor.GREEN, "a"),
+    STARTING("Démarrage", ChatColor.GREEN, SkullTypes.CLOSED_SERVER),
     IN_GAME("En jeu", ChatColor.GOLD, SkullTypes.IN_GAME_SERVER),
     ENDED("Partie finie", ChatColor.RED, SkullTypes.CLOSED_SERVER),
     STOPPING("Arrêt", ChatColor.RED, SkullTypes.CLOSED_SERVER);

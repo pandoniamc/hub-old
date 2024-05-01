@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PlayerService {
 
@@ -58,6 +60,6 @@ public class PlayerService {
     }
 
     public PandoniaPlayer getPlayer(UUID playerId) {
-        return Optional.ofNullable(cache.get(playerId)).orElseGet(() -> addPlayerInCache(playerId));
+        return cache.computeIfAbsent(playerId, this::addPlayerInCache);
     }
 }
