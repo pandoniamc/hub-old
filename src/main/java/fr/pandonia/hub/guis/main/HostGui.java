@@ -19,7 +19,7 @@ public class HostGui extends ChildGui {
     public HostGui(PandoniaPlayer player, List<Host> hosts) {
         super(5, "Choix du serveur", player, GuiType.MAIN);
 
-        setBackground(DyeColor.BROWN.ordinal(), BACKGROUND_SLOTS);
+        setBackground(DyeColor.BROWN, BACKGROUND_SLOTS);
 
         setReturn(40);
 

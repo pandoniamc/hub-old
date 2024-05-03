@@ -33,7 +33,7 @@ public class MainGui extends Gui {
 
         this.players = players;
 
-        setBackground(DyeColor.ORANGE.ordinal(), BACKGROUND_SLOTS);
+        setBackground(DyeColor.ORANGE, BACKGROUND_SLOTS);
 
         setGui(18, getItem("§f§lServeur Customisé", Material.COMMAND_MINECART, Arrays.asList(
                 "§7Tout ce qu’il faut pour",

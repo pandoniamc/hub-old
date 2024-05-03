@@ -12,6 +12,7 @@ import fr.pandonia.hub.api.utils.BukkitUtils;
 import fr.pandonia.hub.api.utils.DateUtils;
 import fr.pandonia.hub.api.utils.skull.SkullTypes;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -94,9 +95,9 @@ public abstract class Gui extends FastInv {
         );
     }
 
-    protected void setBackground(int color, int[] slots) {
+    protected void setBackground(DyeColor color, int[] slots) {
         for (int slot : slots) {
-            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(color).name(" ").build());
+            setItem(slot, new ItemBuilder(Material.STAINED_GLASS_PANE).data(color.ordinal()).name(" ").build());
         }
     }
 

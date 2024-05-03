@@ -27,7 +27,7 @@ public class SettingsGui extends ChildGui {
 
         this.settings = settings;
 
-        setBackground(DyeColor.PURPLE.ordinal(), BACKGROUND_SLOTS);
+        setBackground(DyeColor.PURPLE, BACKGROUND_SLOTS);
 
         setReturn(40);
 

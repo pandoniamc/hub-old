@@ -19,7 +19,7 @@ public class ProfileGui extends Gui {
     public ProfileGui(PandoniaPlayer player) {
         super(6, "Profil", player);
 
-        setBackground(DyeColor.BLUE.ordinal(), BACKGROUND_SLOTS);
+        setBackground(DyeColor.BLUE, BACKGROUND_SLOTS);
 
         setItem(3, getItem("§d§lAmis", SkullUtils.getSkull(SkullTypes.FRIENDS)));
 

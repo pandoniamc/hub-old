@@ -16,7 +16,7 @@ public class GameGui<T> extends ChildGui {
     public GameGui(PandoniaPlayer player, Game game, List<T> servers, BiFunction<GameGui<T>, T, ItemStack> itemFunction) {
         super(6, game.getName(), player, GuiType.MAIN);
 
-        setBackground(game.getDyeColor().ordinal(), BACKGROUND_SLOTS);
+        setBackground(game.getDyeColor(), BACKGROUND_SLOTS);
 
         setReturn(49);
 

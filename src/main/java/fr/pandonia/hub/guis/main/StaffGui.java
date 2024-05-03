@@ -19,7 +19,7 @@ public class StaffGui extends ChildGui {
     public StaffGui(PandoniaPlayer player, boolean staffMode) {
         super(5, "Staff", player, GuiType.MAIN);
 
-        setBackground(DyeColor.MAGENTA.ordinal(), BACKGROUND_SLOTS);
+        setBackground(DyeColor.MAGENTA, BACKGROUND_SLOTS);
 
         setReturn(40);
 

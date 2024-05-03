@@ -1,10 +1,11 @@
 package fr.pandonia.hub.listeners.player;
 
+import fr.pandonia.hub.api.statistics.Statistics;
+import fr.pandonia.hub.api.statistics.StatisticsService;
 import fr.pandonia.hub.events.PlayerOpenGuiEvent;
 import fr.pandonia.hub.guis.Gui;
 import fr.pandonia.hub.guis.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
-import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.host.Host;
 import fr.pandonia.hub.api.host.HostService;
 import fr.pandonia.hub.api.server.Server;
@@ -16,6 +17,7 @@ import fr.pandonia.hub.api.staff.StaffService;
 import fr.pandonia.hub.guis.enums.Game;
 import fr.pandonia.hub.guis.main.GameGui;
 import fr.pandonia.hub.guis.main.HostGui;
+import fr.pandonia.hub.guis.profile.StatisticsGui;
 import fr.pandonia.hub.guis.root.MainGui;
 import fr.pandonia.hub.guis.root.ProfileGui;
 import fr.pandonia.hub.guis.main.StaffGui;
@@ -27,27 +29,27 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class PlayerOpenGuiListener implements Listener {
 
     private final HostService hostService;
-    private final PlayerService playerService;
     private final ServerService serverService;
     private final SettingsService settingsService;
     private final StaffService staffService;
+    private final StatisticsService statisticsService;
 
     public PlayerOpenGuiListener(
             HostService hostService,
-            PlayerService playerService, ServerService serverService,
+            ServerService serverService,
             SettingsService settingsService,
-            StaffService staffService
+            StaffService staffService,
+            StatisticsService statisticsService
     ) {
         this.hostService = hostService;
-        this.playerService = playerService;
         this.serverService = serverService;
         this.settingsService = settingsService;
         this.staffService = staffService;
+        this.statisticsService = statisticsService;
     }
 
     @EventHandler
@@ -86,6 +88,13 @@ public class PlayerOpenGuiListener implements Listener {
                 Settings settings = settingsService.getSettings(player.getId());
 
                 new SettingsGui(player, settings).open(viewer);
+
+                break;
+
+            case STATISTICS:
+                Statistics statistics = statisticsService.getStatistics(player.getId());
+
+                new StatisticsGui(player, statistics).open(viewer);
 
                 break;
 
@@ -128,9 +137,7 @@ public class PlayerOpenGuiListener implements Listener {
     }
 
     private void openStaffListGui(Player viewer, PandoniaPlayer player, boolean connectedOnly) {
-        List<PandoniaPlayer> staffList = staffService.getStaffList(connectedOnly).stream()
-                .map(playerService::getPlayer)
-                .collect(Collectors.toList());
+        List<PandoniaPlayer> staffList = staffService.getStaffList(connectedOnly);
 
         new StaffListGui(player, connectedOnly, staffList).open(viewer);
     }

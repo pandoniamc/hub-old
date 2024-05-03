@@ -17,7 +17,7 @@ public class StaffListGui extends ChildGui {
     public StaffListGui(PandoniaPlayer player, boolean connectedOnly, List<PandoniaPlayer> staffList) {
         super(5, connectedOnly ? "Staff(s) Connecté(s)" : "Équipe du Staff", player, GuiType.STAFF);
 
-        setBackground(DyeColor.LIME.ordinal(), BACKGROUND_SLOTS);
+        setBackground(DyeColor.LIME, BACKGROUND_SLOTS);
 
         for (int i = 0; i < staffList.size(); i++) {
             PandoniaPlayer staff = staffList.get(i);

@@ -1,6 +1,8 @@
 package fr.pandonia.hub.api.staff;
 
 import fr.pandonia.hub.api.player.Group;
+import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.sql.SqlConnectionProvider;
 
 import java.sql.Connection;
@@ -13,18 +15,21 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class StaffService {
 
     private final Logger logger;
     private final SqlConnectionProvider connectionProvider;
+    private final PlayerService playerService;
 
-    public StaffService(Logger logger, SqlConnectionProvider connectionProvider) {
+    public StaffService(Logger logger, SqlConnectionProvider connectionProvider, PlayerService playerService) {
         this.logger = logger;
         this.connectionProvider = connectionProvider;
+        this.playerService = playerService;
     }
 
-    public List<UUID> getStaffList(boolean connectedOnly) {
+    public List<PandoniaPlayer> getStaffList(boolean connectedOnly) {
         try (Connection connection = connectionProvider.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("SELECT p.minecraft_id FROM players p JOIN `groups` g ON p.group_id = g.id WHERE g.id <= ?" + (connectedOnly ? " AND p.is_connected = true" : ""))) {
                 statement.setInt(1, Group.STAFF.ordinal() + 1);
@@ -37,7 +42,9 @@ public class StaffService {
                         staff.add(staffId);
                     }
 
-                    return staff;
+                    return staff.stream()
+                            .map(playerService::getPlayer)
+                            .collect(Collectors.toList());
                 }
             }
         } catch (SQLException e) {

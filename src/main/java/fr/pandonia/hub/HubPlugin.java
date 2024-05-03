@@ -1,6 +1,7 @@
 package fr.pandonia.hub;
 
 import fr.mrmicky.fastinv.FastInvManager;
+import fr.pandonia.hub.api.statistics.StatisticsService;
 import fr.pandonia.hub.configuration.Configuration;
 import fr.pandonia.hub.api.friend.FriendService;
 import fr.pandonia.hub.api.player.PlayerService;
@@ -39,7 +40,8 @@ public class HubPlugin extends JavaPlugin {
         SettingsService settingsService = new SettingsService(sqlConnectionProvider);
         FriendService friendService = new FriendService(getLogger(), sqlConnectionProvider);
         ServerService serverService = new ServerService(getLogger(), sqlConnectionProvider);
-        StaffService staffService = new StaffService(getLogger(), sqlConnectionProvider);
+        StaffService staffService = new StaffService(getLogger(), sqlConnectionProvider, playerService);
+        StatisticsService statisticsService = new StatisticsService(sqlConnectionProvider);
         HostService hostService = new HostService(getLogger(), sqlConnectionProvider, playerService, serverService);
 
         ScoreboardManager scoreboardManager = new ScoreboardManager(this, configuration, playerService);
@@ -53,7 +55,7 @@ public class HubPlugin extends JavaPlugin {
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(playerService),
                 new PlayerJoinListener(playerService, settingsService, scoreboardManager, visibilityManager),
-                new PlayerOpenGuiListener(hostService, playerService, serverService, settingsService, staffService),
+                new PlayerOpenGuiListener(hostService, serverService, settingsService, staffService, statisticsService),
                 new PlayerQuitListener(playerService, settingsService, scoreboardManager),
                 new PlayerTeleportListener(configuration),
                 new PlayerUpdateSettingsListener(settingsService, visibilityManager),
