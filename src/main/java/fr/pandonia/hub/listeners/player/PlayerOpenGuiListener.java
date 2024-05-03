@@ -78,7 +78,7 @@ public class PlayerOpenGuiListener implements Listener {
             }
 
             case STAFF:
-                new StaffGui(player).open(viewer);
+                new StaffGui(player, false).open(viewer);
 
                 break;
 

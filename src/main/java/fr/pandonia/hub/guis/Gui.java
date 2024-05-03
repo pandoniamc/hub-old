@@ -14,10 +14,12 @@ import fr.pandonia.hub.api.utils.skull.SkullTypes;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public abstract class Gui extends FastInv {
 
@@ -109,30 +111,34 @@ public abstract class Gui extends FastInv {
         )));
     }
 
-    protected void setGui(int slot, ItemStack item, GuiType type, Group requiredGroup) {
+    protected void setProtectedItem(int slot, ItemStack item, Group requiredGroup, Consumer<InventoryClickEvent> consumer) {
         if (!requiredGroup.is(Group.STAFF) || player.is(requiredGroup)) {
-            ItemMeta meta = item.getItemMeta();
-            List<String> lore = meta.getLore();
-
-            if (requiredGroup != Group.PLAYER) {
-                lore.add(0, "§8Accès : " + requiredGroup.getName());
-                lore.add(1, "");
-            }
-
-            if (!lore.isEmpty()) {
-                lore.add("");
-                lore.add("§3§l» §bCliquez pour y accéder");
-            }
-
-            meta.setLore(lore);
-            item.setItemMeta(meta);
-
-            setItem(slot, item, e -> {
-                if (player.is(requiredGroup)) {
-                    openGui((Player) e.getWhoClicked(), type);
-                }
-            });
+            setItem(slot, item, consumer);
         }
+    }
+
+    protected void setGui(int slot, ItemStack item, GuiType type, Group requiredGroup) {
+        ItemMeta meta = item.getItemMeta();
+        List<String> lore = meta.getLore();
+
+        if (requiredGroup != Group.PLAYER) {
+            lore.add(0, "§8Accès : " + requiredGroup.getName());
+            lore.add(1, "");
+        }
+
+        if (!lore.isEmpty()) {
+            lore.add("");
+            lore.add("§3§l» §bCliquez pour y accéder");
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+
+        setProtectedItem(slot, item, requiredGroup, e -> {
+            if (player.is(requiredGroup)) {
+                openGui((Player) e.getWhoClicked(), type);
+            }
+        });
     }
 
     protected void setGui(int slot, ItemStack item, GuiType gui) {

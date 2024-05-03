@@ -1,5 +1,6 @@
 package fr.pandonia.hub.listeners.player;
 
+import fr.pandonia.hub.api.settings.Settings;
 import fr.pandonia.hub.events.PlayerUpdateSettingsEvent;
 import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.visibility.VisibilityManager;
@@ -23,10 +24,11 @@ public class PlayerUpdateSettingsListener implements Listener {
     @EventHandler
     public void onPlayerUpdateSettings(PlayerUpdateSettingsEvent event) {
         Player player = event.getPlayer();
+        Settings settings = event.getSettings();
         UUID playerId = player.getUniqueId();
 
         Bukkit.getOnlinePlayers().forEach(target -> visibilityManager.hidePlayerIfNeeded(target, player));
 
-        settingsService.saveSettings(playerId);
+        settingsService.saveSettings(playerId, settings);
     }
 }

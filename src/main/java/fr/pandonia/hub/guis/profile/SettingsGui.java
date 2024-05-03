@@ -39,7 +39,7 @@ public class SettingsGui extends ChildGui {
 
     @Override
     protected void onClose(InventoryCloseEvent event) {
-        BukkitUtils.callEvent(new PlayerUpdateSettingsEvent((Player) event.getPlayer()));
+        BukkitUtils.callEvent(new PlayerUpdateSettingsEvent((Player) event.getPlayer(), settings));
     }
 
     private <T extends Enum<T> & SettingType<?>> void setSetting(int slot, String name, Material material, Setting<T> setting) {

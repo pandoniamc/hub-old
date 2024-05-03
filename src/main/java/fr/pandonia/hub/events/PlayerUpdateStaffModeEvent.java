@@ -1,21 +1,20 @@
 package fr.pandonia.hub.events;
 
-import fr.pandonia.hub.api.settings.Settings;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-public class PlayerUpdateSettingsEvent extends PlayerEvent {
+public class PlayerUpdateStaffModeEvent extends PlayerEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    private final Settings settings;
+    private final boolean staffMode;
 
-    public PlayerUpdateSettingsEvent(Player player, Settings settings) {
+    public PlayerUpdateStaffModeEvent(Player player, boolean staffMode) {
         super(player);
-
-        this.settings = settings;
+        this.staffMode = staffMode;
     }
+
 
     public static HandlerList getHandlerList() {
         return HANDLERS;
@@ -26,7 +25,7 @@ public class PlayerUpdateSettingsEvent extends PlayerEvent {
         return HANDLERS;
     }
 
-    public Settings getSettings() {
-        return settings;
+    public boolean isStaffMode() {
+        return staffMode;
     }
 }

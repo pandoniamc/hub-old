@@ -57,19 +57,13 @@ public class SettingsService {
         return cache.computeIfAbsent(playerId, this::addSettingsInCache);
     }
 
-    public void saveSettings(UUID playerId) {
-        Settings setting = cache.get(playerId);
-
-        if (setting == null) {
-            throw new IllegalArgumentException("No settings found for player " + playerId);
-        }
-
+    public void saveSettings(UUID playerId, Settings settings) {
         try (Connection connection = connectionProvider.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("UPDATE settings s JOIN players p ON s.player_id = p.id SET s.private_messages = ?, s.mentions = ?, s.friend_requests = ?, s.player_visibility = ? WHERE minecraft_id = ?")) {
-                statement.setString(1, setting.getPrivateMessages().get().getPersistedValue());
-                statement.setBoolean(2, setting.getMentions().get().getPersistedValue());
-                statement.setBoolean(3, setting.getFriendRequests().get().getPersistedValue());
-                statement.setString(4, setting.getPlayerVisibility().get().getPersistedValue());
+                statement.setString(1, settings.getPrivateMessages().get().getPersistedValue());
+                statement.setBoolean(2, settings.getMentions().get().getPersistedValue());
+                statement.setBoolean(3, settings.getFriendRequests().get().getPersistedValue());
+                statement.setString(4, settings.getPlayerVisibility().get().getPersistedValue());
                 statement.setString(5, playerId.toString());
 
                 statement.executeUpdate();
