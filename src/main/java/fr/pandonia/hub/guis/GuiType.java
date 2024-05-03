@@ -1,11 +1,11 @@
-package fr.pandonia.hub.api.gui;
+package fr.pandonia.hub.guis;
 
 public enum GuiType {
 
-    INVITATIONS,
+    INVITATION,
     MAIN,
     PROFILE,
-    SERVER,
+    HOST,
     SHOP,
     STAFF,
 
@@ -17,5 +17,9 @@ public enum GuiType {
 
     STAFF_CONNECTED_LIST,
     STAFF_ALL_LIST,
-    STAFF_SERVERS
+    STAFF_SERVERS,
+
+    CAPTURE_THE_SHEEP,
+    ENMU_PARTY,
+    UHC
 }

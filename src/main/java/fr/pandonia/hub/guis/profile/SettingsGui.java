@@ -1,8 +1,8 @@
 package fr.pandonia.hub.guis.profile;
 
-import fr.pandonia.hub.api.events.PlayerUpdateSettingsEvent;
-import fr.pandonia.hub.api.gui.ChildGui;
-import fr.pandonia.hub.api.gui.GuiType;
+import fr.pandonia.hub.events.PlayerUpdateSettingsEvent;
+import fr.pandonia.hub.guis.ChildGui;
+import fr.pandonia.hub.guis.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.settings.Setting;
 import fr.pandonia.hub.api.settings.Settings;

@@ -2,7 +2,7 @@ package fr.pandonia.hub.listeners.player;
 
 import fr.mrmicky.fastinv.ItemBuilder;
 import fr.pandonia.hub.api.player.PlayerService;
-import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
+import fr.pandonia.hub.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
 import fr.pandonia.hub.api.utils.Pair;

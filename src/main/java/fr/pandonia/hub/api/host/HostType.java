@@ -1,11 +1,11 @@
-package fr.pandonia.hub.api.server.game;
+package fr.pandonia.hub.api.host;
 
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
 import java.util.List;
 
-public enum GameType {
+public enum HostType {
 
     UHC("UHC Classique", ChatColor.BLUE, Arrays.asList(
             "§7Préparez votre équipement,",
@@ -24,14 +24,14 @@ public enum GameType {
     private final ChatColor color;
     private final List<String> description;
 
-    GameType(String name, ChatColor color, List<String> description) {
+    HostType(String name, ChatColor color, List<String> description) {
         this.name = name;
         this.color = color;
         this.description = description;
     }
 
     public String getDisplayName() {
-        return color + name;
+        return "" + color + ChatColor.BOLD + name;
     }
 
     public List<String> getDescription() {

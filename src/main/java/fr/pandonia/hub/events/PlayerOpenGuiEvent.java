@@ -1,6 +1,6 @@
-package fr.pandonia.hub.api.events;
+package fr.pandonia.hub.events;
 
-import fr.pandonia.hub.api.gui.GuiType;
+import fr.pandonia.hub.guis.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

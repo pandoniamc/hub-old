@@ -1,16 +1,12 @@
 package fr.pandonia.hub.api.server;
 
 import fr.pandonia.hub.api.sql.SqlConnectionProvider;
-import org.bukkit.ChatColor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,15 +20,44 @@ public class ServerService {
         this.connectionProvider = connectionProvider;
     }
 
-    public List<Server> getServersFromOwner(UUID ownerId) {
+    public Server getServer(int id) {
         try (Connection connection = connectionProvider.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "SELECT s.id, s.name, s.color, s.state, s.game_configuration_id, s.player_count, s.max_players " +
+                    "SELECT s.id, st.name, s.state, s.player_count, s.max_players " +
                             "FROM servers s " +
-                            "JOIN players p ON s.id = p.id " +
-                            "WHERE p.minecraft_id = ?"
+                            "JOIN server_types st ON s.type_id = st.id " +
+                            "WHERE s.id = ?"
             )) {
-                statement.setString(1, ownerId.toString());
+                statement.setInt(1, id);
+
+                try (ResultSet result = statement.executeQuery()) {
+                    if (!result.next()) {
+                        throw new IllegalArgumentException("Server not found");
+                    }
+
+                    return new Server(
+                            result.getInt("s.id"),
+                            ServerType.valueOf(result.getString("st.name").toUpperCase()),
+                            ServerState.valueOf(result.getString("s.state").toUpperCase()),
+                            result.getInt("s.player_count"),
+                            result.getInt("s.max_players")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch server", e);
+        }
+    }
+
+    public List<Server> getServersByType(ServerType type) {
+        try (Connection connection = connectionProvider.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT s.id, st.name, s.state, s.player_count, s.max_players " +
+                            "FROM servers s " +
+                            "JOIN server_types st ON s.type_id = st.id " +
+                            "WHERE st.name = ?"
+            )) {
+                statement.setString(1, type.name());
 
                 try (ResultSet result = statement.executeQuery()) {
                     List<Server> servers = new ArrayList<>();
@@ -40,11 +65,8 @@ public class ServerService {
                     while (result.next()) {
                         Server server = new Server(
                                 result.getInt("s.id"),
-                                ownerId,
-                                result.getString("s.name"),
-                                ChatColor.valueOf(result.getString("s.color")),
-                                ServerState.valueOf(result.getString("s.state")),
-                                result.getInt("s.game_configuration_id"),
+                                ServerType.valueOf(result.getString("st.name").toUpperCase()),
+                                ServerState.valueOf(result.getString("s.state").toUpperCase()),
                                 result.getInt("s.player_count"),
                                 result.getInt("s.max_players")
                         );
@@ -60,5 +82,33 @@ public class ServerService {
         }
 
         return Collections.emptyList();
+    }
+
+    public Map<ServerType, Integer> getPlayersCountByType() {
+        try (Connection connection = connectionProvider.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT st.name, SUM(s.player_count) AS player_count " +
+                            "FROM servers s " +
+                            "JOIN server_types st ON s.type_id = st.id " +
+                            "GROUP BY st.name"
+            )) {
+                try (ResultSet result = statement.executeQuery()) {
+                    Map<ServerType, Integer> players = new HashMap<>();
+
+                    while (result.next()) {
+                        players.put(
+                                ServerType.valueOf(result.getString("st.name").toUpperCase()),
+                                result.getInt("player_count")
+                        );
+                    }
+
+                    return players;
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Failed to fetch players count by type", e);
+        }
+
+        return Collections.emptyMap();
     }
 }

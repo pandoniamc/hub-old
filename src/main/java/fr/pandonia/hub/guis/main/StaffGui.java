@@ -1,8 +1,8 @@
-package fr.pandonia.hub.guis;
+package fr.pandonia.hub.guis.main;
 
-import fr.pandonia.hub.api.gui.ChildGui;
-import fr.pandonia.hub.api.gui.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
+import fr.pandonia.hub.guis.ChildGui;
+import fr.pandonia.hub.guis.GuiType;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 

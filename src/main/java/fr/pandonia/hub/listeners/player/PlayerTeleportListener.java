@@ -1,8 +1,8 @@
 package fr.pandonia.hub.listeners.player;
 
-import fr.pandonia.hub.api.configuration.Configuration;
-import fr.pandonia.hub.api.configuration.TeleportLocation;
-import fr.pandonia.hub.api.events.PlayerTeleportEvent;
+import fr.pandonia.hub.configuration.Configuration;
+import fr.pandonia.hub.configuration.TeleportLocation;
+import fr.pandonia.hub.events.PlayerTeleportEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

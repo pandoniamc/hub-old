@@ -1,8 +1,8 @@
 package fr.pandonia.hub.guis.staff;
 
 import fr.mrmicky.fastinv.ItemBuilder;
-import fr.pandonia.hub.api.gui.ChildGui;
-import fr.pandonia.hub.api.gui.GuiType;
+import fr.pandonia.hub.guis.ChildGui;
+import fr.pandonia.hub.guis.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.utils.BukkitUtils;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;

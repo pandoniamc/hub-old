@@ -1,6 +1,6 @@
-package fr.pandonia.hub.api.server.game;
+package fr.pandonia.hub.api.host;
 
-public enum GameMode {
+public enum TeamSize {
 
     FFA("FFA"),
     TO2("2v2"),
@@ -9,7 +9,7 @@ public enum GameMode {
 
     private final String name;
 
-    GameMode(String name) {
+    TeamSize(String name) {
         this.name = name;
     }
 

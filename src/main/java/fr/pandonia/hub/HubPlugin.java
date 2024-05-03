@@ -1,12 +1,12 @@
 package fr.pandonia.hub;
 
 import fr.mrmicky.fastinv.FastInvManager;
-import fr.pandonia.hub.api.configuration.Configuration;
+import fr.pandonia.hub.configuration.Configuration;
 import fr.pandonia.hub.api.friend.FriendService;
 import fr.pandonia.hub.api.player.PlayerService;
-import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
+import fr.pandonia.hub.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.server.ServerService;
-import fr.pandonia.hub.api.server.game.GameService;
+import fr.pandonia.hub.api.host.HostService;
 import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.sql.HikariConnectionProvider;
 import fr.pandonia.hub.api.staff.StaffService;
@@ -35,14 +35,14 @@ public class HubPlugin extends JavaPlugin {
 
         FastInvManager.register(this);
 
-        FriendService friendService = new FriendService(getLogger(), sqlConnectionProvider);
-        GameService gameService = new GameService(getLogger(), sqlConnectionProvider);
         PlayerService playerService = new PlayerService(sqlConnectionProvider);
-        ServerService serverService = new ServerService(getLogger(), sqlConnectionProvider);
         SettingsService settingsService = new SettingsService(sqlConnectionProvider);
+        FriendService friendService = new FriendService(getLogger(), sqlConnectionProvider);
+        ServerService serverService = new ServerService(getLogger(), sqlConnectionProvider);
         StaffService staffService = new StaffService(getLogger(), sqlConnectionProvider);
+        HostService hostService = new HostService(getLogger(), sqlConnectionProvider, playerService, serverService);
 
-        ScoreboardManager scoreboardManager = new ScoreboardManager(this, playerService);
+        ScoreboardManager scoreboardManager = new ScoreboardManager(this, configuration, playerService);
         VisibilityManager visibilityManager = new VisibilityManager(friendService, settingsService);
 
         registerListeners(
@@ -53,7 +53,7 @@ public class HubPlugin extends JavaPlugin {
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(playerService),
                 new PlayerJoinListener(playerService, settingsService, scoreboardManager, visibilityManager),
-                new PlayerOpenGuiListener(gameService, playerService, serverService, settingsService, staffService),
+                new PlayerOpenGuiListener(hostService, playerService, serverService, settingsService, staffService),
                 new PlayerQuitListener(playerService, settingsService, scoreboardManager),
                 new PlayerTeleportListener(configuration),
                 new PlayerUpdateSettingsListener(settingsService, visibilityManager),

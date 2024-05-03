@@ -1,7 +1,7 @@
 package fr.pandonia.hub.listeners.player;
 
 import fr.pandonia.hub.api.player.PlayerService;
-import fr.pandonia.hub.api.scoreboard.ScoreboardManager;
+import fr.pandonia.hub.scoreboard.ScoreboardManager;
 import fr.pandonia.hub.api.settings.SettingsService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

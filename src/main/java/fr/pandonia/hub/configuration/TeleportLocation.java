@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.configuration;
+package fr.pandonia.hub.configuration;
 
 public enum TeleportLocation {
 

@@ -1,12 +1,12 @@
-package fr.pandonia.hub.api.server.game;
+package fr.pandonia.hub.api.host;
 
-public enum GameScenario {
+public enum Scenario {
 
     CITY_WORLD("City-World");
 
     private final String name;
 
-    GameScenario(String name) {
+    Scenario(String name) {
         this.name = name;
     }
 

@@ -1,8 +1,9 @@
-package fr.pandonia.hub.api.scoreboard;
+package fr.pandonia.hub.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
+import fr.pandonia.hub.configuration.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -18,9 +19,11 @@ public class ScoreboardManager {
 
     private final Map<UUID, FastBoard> scoreboards = new HashMap<>();
 
+    private final Configuration configuration;
     private final PlayerService playerService;
 
-    public ScoreboardManager(Plugin plugin, PlayerService playerService) {
+    public ScoreboardManager(Plugin plugin, Configuration configuration, PlayerService playerService) {
+        this.configuration = configuration;
         this.playerService = playerService;
 
         new LobbyScoreboardRunnable().runTaskTimer(plugin, 0, 20);
@@ -71,7 +74,7 @@ public class ScoreboardManager {
                     String.format(" §7» §fLootbox §8▪ §d%d", player.getLootboxs()),
                     "",
                     "§3§l┃ SERVEUR",
-                    " §7» §fHub §8▪ §fHub §9#<hub>",
+                    String.format(" §7» §fHub §8▪ §fHub §9#%d", configuration.getHub()),
                     String.format(" §7» §fJoueurs §8▪ §9%s", Bukkit.getOnlinePlayers().size()),
                     "",
                     String.format("      %smc.pandonia.fr", COLORS[tick])

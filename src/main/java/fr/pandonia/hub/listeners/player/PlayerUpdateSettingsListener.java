@@ -1,6 +1,6 @@
 package fr.pandonia.hub.listeners.player;
 
-import fr.pandonia.hub.api.events.PlayerUpdateSettingsEvent;
+import fr.pandonia.hub.events.PlayerUpdateSettingsEvent;
 import fr.pandonia.hub.api.settings.SettingsService;
 import fr.pandonia.hub.api.visibility.VisibilityManager;
 import org.bukkit.Bukkit;

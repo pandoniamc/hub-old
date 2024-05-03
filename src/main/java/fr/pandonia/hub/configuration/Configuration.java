@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.configuration;
+package fr.pandonia.hub.configuration;
 
 import fr.pandonia.hub.api.sql.SqlCredentials;
 import org.bukkit.Location;
@@ -10,6 +10,10 @@ public class Configuration {
 
     public Configuration(FileConfiguration configuration) {
         this.configuration = configuration;
+    }
+
+    public int getHub() {
+        return configuration.getInt("hub");
     }
 
     public SqlCredentials getSqlCredentials() {

@@ -1,10 +1,10 @@
-package fr.pandonia.hub.guis;
+package fr.pandonia.hub.guis.root;
 
-import fr.pandonia.hub.api.gui.GuiType;
-import fr.pandonia.hub.api.gui.Gui;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.utils.skull.SkullTypes;
 import fr.pandonia.hub.api.utils.skull.SkullUtils;
+import fr.pandonia.hub.guis.Gui;
+import fr.pandonia.hub.guis.GuiType;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

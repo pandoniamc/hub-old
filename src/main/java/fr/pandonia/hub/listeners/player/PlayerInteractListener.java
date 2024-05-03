@@ -1,9 +1,9 @@
 package fr.pandonia.hub.listeners.player;
 
-import fr.pandonia.hub.api.configuration.TeleportLocation;
-import fr.pandonia.hub.api.events.PlayerOpenGuiEvent;
-import fr.pandonia.hub.api.events.PlayerTeleportEvent;
-import fr.pandonia.hub.api.gui.GuiType;
+import fr.pandonia.hub.configuration.TeleportLocation;
+import fr.pandonia.hub.events.PlayerOpenGuiEvent;
+import fr.pandonia.hub.events.PlayerTeleportEvent;
+import fr.pandonia.hub.guis.GuiType;
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import fr.pandonia.hub.api.player.PlayerService;
 import fr.pandonia.hub.api.utils.BukkitUtils;

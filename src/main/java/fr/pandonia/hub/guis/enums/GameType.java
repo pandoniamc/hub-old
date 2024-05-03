@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.game;
+package fr.pandonia.hub.guis.enums;
 
 public enum GameType {
 

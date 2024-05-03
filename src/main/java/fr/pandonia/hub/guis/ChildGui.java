@@ -1,4 +1,4 @@
-package fr.pandonia.hub.api.gui;
+package fr.pandonia.hub.guis;
 
 import fr.pandonia.hub.api.player.PandoniaPlayer;
 import org.bukkit.Material;
