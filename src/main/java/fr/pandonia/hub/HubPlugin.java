@@ -55,7 +55,7 @@ public class HubPlugin extends JavaPlugin {
                 new PlayerDropItemListener(),
                 new PlayerInteractListener(playerService),
                 new PlayerJoinListener(playerService, settingsService, scoreboardManager, visibilityManager),
-                new PlayerOpenGuiListener(hostService, serverService, settingsService, staffService, statisticsService),
+                new PlayerOpenGuiListener(configuration, hostService, serverService, settingsService, staffService, statisticsService),
                 new PlayerQuitListener(playerService, settingsService, scoreboardManager),
                 new PlayerTeleportListener(configuration),
                 new PlayerUpdateSettingsListener(settingsService, visibilityManager),

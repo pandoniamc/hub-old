@@ -58,6 +58,11 @@ public class PlayerInteractListener implements Listener {
                 BukkitUtils.callEvent(new PlayerTeleportEvent(bukkitPlayer, TeleportLocation.JUMP));
 
                 break;
+
+            case BEACON:
+                BukkitUtils.callEvent(new PlayerOpenGuiEvent(bukkitPlayer, player, GuiType.HUB));
+
+                break;
         }
     }
 }

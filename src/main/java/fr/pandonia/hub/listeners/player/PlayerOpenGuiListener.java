@@ -2,6 +2,7 @@ package fr.pandonia.hub.listeners.player;
 
 import fr.pandonia.hub.api.statistics.Statistics;
 import fr.pandonia.hub.api.statistics.StatisticsService;
+import fr.pandonia.hub.configuration.Configuration;
 import fr.pandonia.hub.events.PlayerOpenGuiEvent;
 import fr.pandonia.hub.guis.Gui;
 import fr.pandonia.hub.guis.GuiType;
@@ -18,6 +19,7 @@ import fr.pandonia.hub.guis.enums.Game;
 import fr.pandonia.hub.guis.main.GameGui;
 import fr.pandonia.hub.guis.main.HostGui;
 import fr.pandonia.hub.guis.profile.StatisticsGui;
+import fr.pandonia.hub.guis.root.HubGui;
 import fr.pandonia.hub.guis.root.MainGui;
 import fr.pandonia.hub.guis.root.ProfileGui;
 import fr.pandonia.hub.guis.main.StaffGui;
@@ -32,6 +34,7 @@ import java.util.Map;
 
 public class PlayerOpenGuiListener implements Listener {
 
+    private final Configuration configuration;
     private final HostService hostService;
     private final ServerService serverService;
     private final SettingsService settingsService;
@@ -39,12 +42,14 @@ public class PlayerOpenGuiListener implements Listener {
     private final StatisticsService statisticsService;
 
     public PlayerOpenGuiListener(
+            Configuration configuration,
             HostService hostService,
             ServerService serverService,
             SettingsService settingsService,
             StaffService staffService,
             StatisticsService statisticsService
     ) {
+        this.configuration = configuration;
         this.hostService = hostService;
         this.serverService = serverService;
         this.settingsService = settingsService;
@@ -68,6 +73,13 @@ public class PlayerOpenGuiListener implements Listener {
 
             case PROFILE:
                 new ProfileGui(player).open(viewer);
+
+                break;
+
+            case HUB:
+                List<Server> servers = serverService.getServersByType(ServerType.HUB);
+
+                new HubGui(player, configuration.getHub(), servers).open(viewer);
 
                 break;
 

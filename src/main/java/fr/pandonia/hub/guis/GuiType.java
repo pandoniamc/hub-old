@@ -8,6 +8,7 @@ public enum GuiType {
     HOST,
     SHOP,
     STAFF,
+    HUB,
 
     PANDONIA_PASS,
     SETTINGS,
